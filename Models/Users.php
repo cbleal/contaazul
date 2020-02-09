@@ -4,6 +4,8 @@ use \Core\Model;
 
 class Users extends Model
 {
+	private $userInfo;
+
 	public function isLogged()
 	{
 		if (isset($_SESSION['ccUser']) && !empty($_SESSION['ccUser'])) {
@@ -27,6 +29,30 @@ class Users extends Model
 		}
 		else {
 			return false;
+		}
+	}
+	public function setLoggedUser()
+	{
+		if (isset($_SESSION['ccUser']) && !empty($_SESSION['ccUser'])) {
+			$id = addslashes($_SESSION['ccUser']);
+
+			$sql = "SELECT * FROM users WHERE id = :id";
+			$stmt = $this->db->prepare($sql);
+			$stmt->bindValue(":id", $id);
+			$stmt->execute();
+
+			if ($stmt->rowCount()) {
+				$this->userInfo = $stmt->fetch();
+			}
+		}
+	}
+	public function getCompany()
+	{
+		if (isset($this->userInfo['id_company'])) {
+			return $this->userInfo['id_company'];
+		}
+		else {
+			return 0;
 		}
 	}
 }
