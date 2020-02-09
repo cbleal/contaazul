@@ -5,7 +5,7 @@ $config = array();
 
 if (ENVIRONMENT == 'development') {
 	// define("BASE_URL", "http://localhost/contaazul/");
-	$config['name'] = "pdo";
+	$config['name'] = "contaazul";
 	$config['host'] = "localhost";
 	$config['user'] = "root";
 	$config['pass'] = "";

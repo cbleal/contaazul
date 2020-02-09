@@ -12,4 +12,21 @@ class Users extends Model
 			return false;
 		}
 	}
+	public function doLogin($email, $password)
+	{
+		$sql = "SELECT * FROM users WHERE email = :email AND password = :password";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(":email", $email);
+		$stmt->bindValue(":password", md5($password));
+		$stmt->execute();
+
+		if ($stmt->rowCount() > 0) {
+			$row = $stmt->fetch();
+			$_SESSION['ccUser'] = $row['id'];
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 }
