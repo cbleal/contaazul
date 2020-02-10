@@ -55,4 +55,17 @@ class Users extends Model
 			return 0;
 		}
 	}
+	public function getEmail()
+	{
+		if (isset($this->userInfo['email'])) {
+			return $this->userInfo['email'];
+		}
+		else {
+			return '';
+		}
+	}
+	public function logout()
+	{
+		unset($_SESSION['ccUser']);
+	}
 }

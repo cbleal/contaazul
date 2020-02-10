@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Conta Azul</title>
-	<link rel="stylesheet" href="<?php echo BASE_URL . "assets/css/login.css" ?>">
+	<link rel="stylesheet" href="<?php echo BASE_URL;?>assets/css/login.css">
 </head>
 <body>
 
