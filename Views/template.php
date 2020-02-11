@@ -3,28 +3,47 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Painel - <?php echo $viewData['company_name']; ?></title>
+	<!-- LINK TEMPLATE.CSS -->
 	<link rel="stylesheet" href="<?php echo BASE_URL ;?>assets/css/template.css">	
 </head>
 <body>
-
+	<!-- DIV LEFTMENU -->
 	<div class="leftmenu">
+		<!-- DIV COMPANY_NAME -->
 		<div class="company_name">
 			<?php echo $viewData['company_name']; ?>
 		</div>
+		<!-- FIM DIV COMPANY_NAME -->
+		<!-- DIV MENUAREA -->
+		<div class="menuarea">
+			<ul>
+				<li><a href="<?php echo BASE_URL ?>">Home</a></li>
+				<li><a href="<?php echo BASE_URL ?>permissions">Permissões</a></li>
+			</ul>
+		</div>
+		<!-- FIM DIV MENUAREA -->
 	</div>
+	<!-- FIM DIV LEFTMENU -->
 
+	<!-- DIV CONTAINER -->
 	<div class="container">
+		<!-- DIV TOP -->
 		<div class="top">
+			<!-- DIV TOP RIGHT -->
 			<div class="top_right">
 				<a href="<?php echo BASE_URL."login/logout"; ?>">
 					Sair
 				</a>
 			</div>
 			<div class="top_right"><?php echo $viewData['user_email']; ?></div>
+			<!-- FIM DIV TOP RIGHT -->
+		</div>
+		<!-- FIM DIV TOP -->
+		<div class="area">
+			<?php $this->loadViewInTemplate($viewName, $viewData); ?>
 		</div>
 	</div>
-	
-	<?php $this->loadViewInTemplate($viewName, $viewData); ?>
+	<!-- FIM DIV CONTAINER -->
 
 </body>
 </html>

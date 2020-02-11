@@ -1,2 +1,3 @@
-<?php echo $company_name; ?>
+HOME
+<!-- <?php echo $company_name; ?> -->
 
