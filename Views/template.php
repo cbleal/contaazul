@@ -4,7 +4,11 @@
 	<meta charset="UTF-8">
 	<title>Painel - <?php echo $viewData['company_name']; ?></title>
 	<!-- LINK TEMPLATE.CSS -->
-	<link rel="stylesheet" href="<?php echo BASE_URL ;?>assets/css/template.css">	
+	<link rel="stylesheet" href="<?php echo BASE_URL ;?>assets/css/template.css">
+	<!-- JQUERY -->
+	<script type="text/javascript" src="<?php echo BASE_URL;?>assets/js/jquery-3.4.1.min.js"></script> 
+	<!-- JAVASCRIPT -->
+	<script type="text/javascript" src="<?php echo BASE_URL;?>assets/js/script.js"></script> 
 </head>
 <body>
 	<!-- DIV LEFTMENU -->
@@ -31,7 +35,7 @@
 		<div class="top">
 			<!-- DIV TOP RIGHT -->
 			<div class="top_right">
-				<a href="<?php echo BASE_URL."login/logout"; ?>">
+				<a href="<?php echo BASE_URL.'login/logout'; ?>">
 					Sair
 				</a>
 			</div>
@@ -39,11 +43,17 @@
 			<!-- FIM DIV TOP RIGHT -->
 		</div>
 		<!-- FIM DIV TOP -->
-		<div class="area">
+
+		<!-- DIV AREA -->
+		<div class="area">	
 			<?php $this->loadViewInTemplate($viewName, $viewData); ?>
 		</div>
+		<!-- FIM DIV AREA -->	
+
 	</div>
 	<!-- FIM DIV CONTAINER -->
+
+
 
 </body>
 </html>

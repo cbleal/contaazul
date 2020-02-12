@@ -2,7 +2,7 @@ body {
 	margin:0;
 	padding: 0;
 	font-size: 13px;
-	font-family: Arial;	
+	font-family: Arial;		
 }
 .leftmenu {
 	width: 200px;
@@ -23,7 +23,7 @@ body {
 	padding-left: 200px;
 }
 .top {
-	height: 40px;
+	height: 40px;	
 	background-color: #232830;
 	color: #FFF;
 	font-size: 13px;
@@ -70,4 +70,24 @@ body {
 }
 .menuarea li:nth-child(2) {	
 	background-image: url('../images/key.png');
+}
+.area {
+	padding: 15px;
+}
+.tabitem {
+	float: left;
+	width: 50%;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	border-bottom: 1px solid #000;
+	background-color: #EEE;
+	cursor: pointer;
+}
+.activetab {
+	border-bottom: 1px solid #FFF;
+	background-color: #FFF;
+}
+.tabbody {
+	display: none;
 }
