@@ -27,7 +27,16 @@ class LoginController extends Controller
 	public function logout()
 	{
 		$u = new Users();
-		$u->logout();
-		header("Location: " . BASE_URL);
+		// definir o usuário
+		$u->setLoggedUser();
+		if ($u->hasPermission('logout')) {
+			// sai
+			$u->logout();
+			header("Location: " . BASE_URL);
+		} else {
+			echo "NÃO PODE FAZER LOGOUT...";
+			exit;
+		}
+		
 	}
 }

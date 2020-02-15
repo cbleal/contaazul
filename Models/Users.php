@@ -1,10 +1,12 @@
 <?php
 namespace Models;
 use \Core\Model;
+use \Models\Permissions;
 
 class Users extends Model
 {
 	private $userInfo;
+	private $permissions;
 
 	public function isLogged()
 	{
@@ -43,8 +45,15 @@ class Users extends Model
 
 			if ($stmt->rowCount()) {
 				$this->userInfo = $stmt->fetch();
+
+				$this->permissions = new Permissions();
+				$this->permissions->setGroup($this->userInfo['group'], $this->userInfo['id_company']);
 			}
 		}
+	}
+	public function hasPermission($name)
+	{
+		return $this->permissions->hasPermission($name);
 	}
 	public function getCompany()
 	{
@@ -67,5 +76,5 @@ class Users extends Model
 	public function logout()
 	{
 		unset($_SESSION['ccUser']);
-	}
+	}	
 }
