@@ -47,7 +47,7 @@ class Users extends Model
 				$this->userInfo = $stmt->fetch();
 
 				$this->permissions = new Permissions();
-				$this->permissions->setGroup($this->userInfo['group'], $this->userInfo['id_company']);
+				$this->permissions->setGroup($this->userInfo['id_group'], $this->userInfo['id_company']);
 			}
 		}
 	}
@@ -76,5 +76,19 @@ class Users extends Model
 	public function logout()
 	{
 		unset($_SESSION['ccUser']);
-	}	
+	}
+	public function findUsersInGroup($id)
+	{
+		$sql = "SELECT COUNT(*) AS c FROM users WHERE id_group = :id";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(":id", $id);
+		$stmt->execute();
+		$row = $stmt->fetch();
+
+		if ($row['c'] == 0) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 }

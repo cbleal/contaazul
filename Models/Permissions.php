@@ -1,6 +1,7 @@
 <?php
 namespace Models;
 use \Core\Model;
+use \Models\Users;
 
 class Permissions extends Model
 {
@@ -60,6 +61,35 @@ class Permissions extends Model
 
 		return $array;
 	}
+	public function getGroupList($id_company)
+	{
+		$array = array();
+		$sql = "SELECT * FROM permission_groups WHERE id_company = :id_company";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(":id_company", $id_company);
+		$stmt->execute();
+
+		if ($stmt->rowCount() > 0) {
+			$array = $stmt->fetchAll();
+		}
+
+		return $array;
+	}
+	public function getGroup($id)
+	{
+		$array = array();
+		$sql = "SELECT * FROM permission_groups WHERE id = :id";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(":id", $id);
+		$stmt->execute();
+
+		if ($stmt->rowCount() > 0) {
+			$array = $stmt->fetch();
+			$array['params'] = explode(',', $array['params']);
+		}
+
+		return $array;
+	}
 	public function add($name, $id_company)
 	{
 		$sql = "INSERT INTO permission_params SET name = :name, 
@@ -69,6 +99,16 @@ class Permissions extends Model
 		$stmt->bindValue(":id_company", $id_company);
 		$stmt->execute();
 	}
+	public function addGroup($name, $list, $id_company)
+	{
+		$params = implode(',', $list);
+		$sql = "INSERT INTO permission_groups SET name = :name, id_company = :id_company, 	params = :params";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(":name", $name);
+		$stmt->bindValue(":id_company", $id_company);
+		$stmt->bindValue(":params", $params);
+		$stmt->execute();
+	}	
 	public function delete($id)
 	{
 		$sql = "DELETE FROM permission_params WHERE id = :id";
@@ -76,4 +116,25 @@ class Permissions extends Model
 		$stmt->bindValue(":id", $id);
 		$stmt->execute();
 	}
+	public function deleteGroup($id)
+	{
+		$u = new Users();
+		if (!$u->findUsersInGroup($id)) {			
+			$sql = "DELETE FROM permission_groups WHERE id = :id";
+			$stmt = $this->db->prepare($sql);		
+			$stmt->bindValue(":id", $id);
+			$stmt->execute();
+		}
+	}
+	public function editGroup($name, $list, $id, $id_company)
+	{
+		$params = implode(',', $list);		
+		$sql = "UPDATE permission_groups SET name = :name, id_company = :id_company, 	params = :params WHERE id = :id";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(":name", $name);
+		$stmt->bindValue(":id_company", $id_company);
+		$stmt->bindValue(":params", $params);
+		$stmt->bindValue(":id", $id);
+		$stmt->execute();
+	}	
 }
