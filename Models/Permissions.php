@@ -46,4 +46,34 @@ class Permissions extends Model
 			return false;
 		}
 	}
+	public function getList($id_company)
+	{
+		$array = array();
+		$sql = "SELECT * FROM permission_params WHERE id_company = :id_company";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(":id_company", $id_company);
+		$stmt->execute();
+
+		if ($stmt->rowCount() > 0) {
+			$array = $stmt->fetchAll();
+		}
+
+		return $array;
+	}
+	public function add($name, $id_company)
+	{
+		$sql = "INSERT INTO permission_params SET name = :name, 
+				id_company = :id_company";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(":name", $name);
+		$stmt->bindValue(":id_company", $id_company);
+		$stmt->execute();
+	}
+	public function delete($id)
+	{
+		$sql = "DELETE FROM permission_params WHERE id = :id";
+		$stmt = $this->db->prepare($sql);		
+		$stmt->bindValue(":id", $id);
+		$stmt->execute();
+	}
 }

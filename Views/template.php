@@ -4,11 +4,7 @@
 	<meta charset="UTF-8">
 	<title>Painel - <?php echo $viewData['company_name']; ?></title>
 	<!-- LINK TEMPLATE.CSS -->
-	<link rel="stylesheet" href="<?php echo BASE_URL ;?>assets/css/template.css">
-	<!-- JQUERY -->
-	<script type="text/javascript" src="<?php echo BASE_URL;?>assets/js/jquery-3.4.1.min.js"></script> 
-	<!-- JAVASCRIPT -->
-	<script type="text/javascript" src="<?php echo BASE_URL;?>assets/js/script.js"></script> 
+	<link rel="stylesheet" href="<?php echo BASE_URL ;?>assets/css/template.css">	
 </head>
 <body>
 	<!-- DIV LEFTMENU -->
@@ -53,7 +49,9 @@
 	</div>
 	<!-- FIM DIV CONTAINER -->
 
-
-
+	<!-- JQUERY -->
+	<script type="text/javascript" src="<?php echo BASE_URL;?>assets/js/jquery-3.4.1.min.js"></script> 
+	<!-- JAVASCRIPT -->
+	<script type="text/javascript" src="<?php echo BASE_URL;?>assets/js/script.js"></script> 
 </body>
 </html>
