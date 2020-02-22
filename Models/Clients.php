@@ -1,0 +1,40 @@
+<?php
+namespace Models;
+use \Core\Model;
+
+class Clients extends Model
+{
+	public function getList($offset)
+	{
+		$array = array();
+		$sql = "SELECT * FROM clients LIMIT $offset,10";
+		$stmt = $this->db->prepare($sql);		
+		$stmt->execute();
+
+		if ($stmt->rowCount() > 0) {
+			$array = $stmt->fetchAll();
+		}
+
+		return $array;
+	}
+	public function add($name, $email, $phone, $address_zipcode, $address, $address_number, $address2, $address_neighb, $address_city, $address_state, $address_country, $stars, $internal_obs, $id_company)
+	{
+		$sql = "INSERT INTO clients SET name = :name, email = :email, phone = :phone, address_zipcode = :address_zipcode, address = :address, address_number = :address_number, address2 = :address2, address_neighb = :address_neighb, address_city = :address_city, address_state = :address_state, address_country = :address_country, stars = :stars, internal_obs = :internal_obs, id_company = :id_company";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(":name", $name);
+		$stmt->bindValue(":email", $email);
+		$stmt->bindValue(":phone", $phone);
+		$stmt->bindValue(":address_zipcode", $address_zipcode);
+		$stmt->bindValue(":address", $address);
+		$stmt->bindValue(":address_number", $address_number);
+		$stmt->bindValue(":address2", $address2);
+		$stmt->bindValue(":address_neighb", $address_neighb);
+		$stmt->bindValue(":address_city", $address_city);
+		$stmt->bindValue(":address_state", $address_state);
+		$stmt->bindValue(":address_country", $address_country);
+		$stmt->bindValue(":stars", $stars);
+		$stmt->bindValue(":internal_obs", $internal_obs);
+		$stmt->bindValue(":id_company", $id_company);
+		$stmt->execute();
+	}
+}

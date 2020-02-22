@@ -81,7 +81,7 @@ class PermissionsController extends Controller
 
 			if (isset($_POST['name']) && !empty($_POST['name'])) {
 
-				$pname = addslashes($_POST['name']);
+				$pname = addslashes($_POST['name']);				
 				$plist = $_POST['permissions'];
 				$permissions->addGroup($pname, $plist, $u->getCompany());
 
