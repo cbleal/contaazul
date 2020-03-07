@@ -29,7 +29,7 @@ class ClientsController extends Controller
 		if ($u->hasPermission('users_view')) {
 			$c = new Clients();
 			$offset = 0;
-			$data['clients_list'] = $c->getList($offset);
+			$data['clients_list'] = $c->getList($offset, $u->getCompany());
 			$data['edit_permission'] = $u->hasPermission('clients_edit');
 			// carrega o template
 			$this->loadTemplate('clients', $data);
@@ -89,45 +89,43 @@ class ClientsController extends Controller
 		$company = new Companies($u->getCompany());
 		$data['company_name'] = $company->getName();
 		$data['user_email'] = $u->getEmail();
-		
-		if ($u->hasPermission('permissions_view')) {
 
-			$permissions = new Permissions();
-			$data['users_group_list'] = $permissions->getGroupList($u->getCompany());
-			$data['user_info'] = $u->getInfo($id, $u->getCompany());
+		if ($u->hasPermission('clients_edit')) {
 
-			if (isset($_POST['group']) && !empty($_POST['group'])) {				
-				$password = addslashes($_POST['password']);
-				$id_group = addslashes($_POST['group']);
-				$u->edit($password, $id_group, $id, $u->getCompany());
+			$c = new Clients();
+			
+			if (isset($_POST['name']) && !empty($_POST['name'])) {
 
-				header("Location: " . BASE_URL . "/users");
-			}	
+				$name = addslashes($_POST['name']);
+				$email = addslashes($_POST['email']);
+				$phone = addslashes($_POST['phone']);
+				$address_zipcode = addslashes($_POST['address_zipcode']);
+				$address = addslashes($_POST['address']);
+				$address_number = addslashes($_POST['address_number']);
+				$address2 = addslashes($_POST['address2']);
+				$address_neighb = addslashes($_POST['address_neighb']);
+				$address_city = addslashes($_POST['address_city']);
+				$address_state = addslashes($_POST['address_state']);
+				$address_country = addslashes($_POST['address_country']);
+				$stars = addslashes($_POST['stars']);
+				$internal_obs = addslashes($_POST['internal_obs']);
+
+				$c->edit($id, $name, $email, $phone, $address_zipcode, $address, $address_number, $address2, $address_neighb, $address_city, $address_state, $address_country, $stars, $internal_obs, $u->getCompany());
+
+				header("Location: " . BASE_URL . "/clients");
+				
+			}
+			// carrega o cliente
+			$data['client_info'] = $c->getInfo($id, $u->getCompany());
 			// carrega o template
-			$this->loadTemplate('users_edit', $data);
+			$this->loadTemplate('clients_edit', $data);
 		} else {
-			// volta para home
-			header("Location: " . BASE_URL);
+			// volta para view clients
+			header("Location: " . BASE_URL . "/clients");
 		}
 	}
 	public function delete($id)
 	{
-		$data = array();
-
-		$u = new Users();
-		$u->setLoggedUser();
-		$company = new Companies($u->getCompany());
-		$data['company_name'] = $company->getName();
-		$data['user_email'] = $u->getEmail();
-
-		if ($u->hasPermission('permissions_view')) {
-
-			//deleta
-			$u->delete($id, $u->getCompany());
-			header("Location: " . BASE_URL . "/users");			
-		} else {
-			// volta para home
-			header("Location: " . BASE_URL);
-		}
+		echo "StandBy";
 	}	
 }
