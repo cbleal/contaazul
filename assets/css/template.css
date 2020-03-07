@@ -170,3 +170,26 @@ table td {
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
+.pagination {
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+.pag_item {
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	float:left;
+	border:1px solid #000;
+	margin-right: 3px;
+	text-align: center;
+}
+.pag_ativo {
+	background-color: #224074;
+}
+.pag_item a {
+	color: #000;
+	text-decoration: none;
+}
+.pag_ativo a {
+	color: #FFF;
+}

@@ -28,8 +28,28 @@ class ClientsController extends Controller
 
 		if ($u->hasPermission('users_view')) {
 			$c = new Clients();
+			// offset
 			$offset = 0;
+			// número de clientes por página
+			$clients_p = 10;
+			// página atual
+			$data['p'] = 1;
+			// pegar a página clicada
+			if (isset($_GET['p']) && !empty($_GET['p'])) {
+				$data['p'] = intval($_GET['p']);
+				if ($data['p'] == 0) {
+					$data['p'] = 1;
+				}
+			}
+			// calcular offset
+			$offset = ($clients_p * ($data['p'] - 1));
+			// número de registro de clientes
+			$data['clients_count'] = $c->getCount($u->getCompany());			
+			// calcular o número de páginas
+			$data['p_count'] = ceil($data['clients_count']/$clients_p);
+			// lista de clientes
 			$data['clients_list'] = $c->getList($offset, $u->getCompany());
+			// permissão do usuário
 			$data['edit_permission'] = $u->hasPermission('clients_edit');
 			// carrega o template
 			$this->loadTemplate('clients', $data);

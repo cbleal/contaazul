@@ -33,6 +33,20 @@ class Clients extends Model
 
 		return $array;
 	}
+	public function getCount($id_company)
+	{
+		$r = 0;
+		$sql = "SELECT COUNT(*) AS c FROM clients WHERE id_company = :id_company";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(":id_company", $id_company);
+		$stmt->execute();
+
+		$row = $stmt->fetch();		
+		$r = $row['c'];
+		// var_dump($r); exit;
+
+		return $r;
+	}
 	public function add($name, $email, $phone, $address_zipcode, $address, $address_number, $address2, $address_neighb, $address_city, $address_state, $address_country, $stars, $internal_obs, $id_company)
 	{
 		$sql = "INSERT INTO clients SET name = :name, email = :email, phone = :phone, address_zipcode = :address_zipcode, address = :address, address_number = :address_number, address2 = :address2, address_neighb = :address_neighb, address_city = :address_city, address_state = :address_state, address_country = :address_country, stars = :stars, internal_obs = :internal_obs, id_company = :id_company";
