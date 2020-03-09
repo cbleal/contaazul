@@ -14,4 +14,55 @@ $(function(){
 		// 2o. conteúdo da classe tabbody é mostrado baseado no índice da tabitem
 		$('.tabbody').eq(item).show();
 	});
+	// função para o campo busca ao receber o foco
+	$('#busca').on('focus', function() {
+		// aumenta o tamanho do campo de forma animada
+		$(this).animate({
+			width:'250px'
+		}, 'fast');
+	});
+	// função para o campo busca ao perder o foco
+	$('#busca').on('blur', function() {
+		// diminui o tamanho do campo de forma animada
+		if ($(this).val() == '') { // se o campo estiver vazio
+			$(this).animate({
+				width:'100px'
+			}, 'fast');
+		}
+		setTimeout(function() {
+			$('.searchresults').hide();
+		}, 500);
+	});
+	// função para busca ao digitar no campo
+	$('#busca').on('keyup', function() {
+		var datatype = $(this).attr('data-type');
+		var q = $(this).val();
+		if (datatype != '') {			
+			$.ajax({
+				url:BASE_URL+'ajax/'+datatype,
+				type:'GET',
+				data:{q:q},
+				dataType:'json',
+				success:function(json) {
+
+					if ( $('.searchresults').length == 0 ) {
+						$('#busca').after('<div class="searchresults"></div>');
+					}
+
+					$('.searchresults').css('left', $('#busca').offset().left+'px');
+					$('.searchresults').css('top', $('#busca').offset().top+$('#busca').height()+3+'px');
+					
+					var html = '';
+
+					for (var i in json) {
+						html += '<div class="si"><a href="'+json[i].link+'">'+json[i].name+'</div>';
+					}
+
+					$('.searchresults').html(html);
+					$('.searchresults').show();
+				}				
+			});			
+		}
+	});
+
 });

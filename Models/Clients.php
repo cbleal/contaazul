@@ -88,5 +88,20 @@ class Clients extends Model
 		$stmt->bindValue(":id", $id);
 		$stmt->bindValue(":id_company2", $id_company);
 		$stmt->execute();
-	}	
+	}
+	public function searchClientByName($name, $id_company)
+	{
+		$array = array();
+		$sql = "SELECT id, name FROM clients WHERE name LIKE :name AND id_company = :id_company LIMIT 10";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(":name", "%".$name."%");
+		$stmt->bindValue(":id_company", $id_company);
+		$stmt->execute();
+
+		if ($stmt->rowCount() > 0) {
+			$array = $stmt->fetchAll();
+		}
+
+		return $array;
+	}
 }

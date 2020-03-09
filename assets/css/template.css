@@ -193,3 +193,35 @@ table td {
 .pag_ativo a {
 	color: #FFF;
 }
+#busca {
+	width: 100px;
+	float: right;
+	background-image: url('../images/search.png');
+	background-repeat: no-repeat;
+	background-size: 15px 15px;
+	background-position: 5px;
+	padding-left: 25px;
+	border-radius: 3px;
+	border: 1px solid #CCC;
+}
+.searchresults {
+	width: 280px;
+	height: 200px;
+	background-color: #FFF;
+	position: absolute;
+	border: 1px solid #CCC;
+}
+.si {
+	height: 30px;
+	line-height: 30px;
+	padding-left: 10px;
+	cursor: pointer;
+}
+.si:hover {
+	background-color: #EEE;
+}
+.si a {
+	color: #000;
+	text-decoration: none;
+	display: block;
+}

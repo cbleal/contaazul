@@ -6,6 +6,7 @@
 		</a>
 	</div>	
 <?php endif; ?>
+<input type="text" id="busca" data-type="search_clients">
 <table border="0" width="100%">
 	<tr>
 		<th>Nome</th>
