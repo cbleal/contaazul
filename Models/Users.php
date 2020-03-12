@@ -55,6 +55,15 @@ class Users extends Model
 	{
 		return $this->permissions->hasPermission($name);
 	}
+	public function getId()
+	{
+		if (isset($this->userInfo['id'])) {
+			return $this->userInfo['id'];
+		}
+		else {
+			return 0;
+		}
+	}
 	public function getCompany()
 	{
 		if (isset($this->userInfo['id_company'])) {

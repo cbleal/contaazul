@@ -10,5 +10,5 @@
 			<label for="p_<?php echo $p['id']; ?>"><?php echo $p['name']; ?></label>
 		</div>
 	<?php endforeach; ?>
-	<input type="submit" value="Editar">
+	<input type="submit" value="Salvar">
 </form>

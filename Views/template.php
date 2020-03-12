@@ -4,7 +4,13 @@
 	<meta charset="UTF-8">
 	<title>Painel - <?php echo $viewData['company_name']; ?></title>
 	<!-- LINK TEMPLATE.CSS -->
-	<link rel="stylesheet" href="<?php echo BASE_URL ;?>assets/css/template.css">	
+	<link rel="stylesheet" href="<?php echo BASE_URL ;?>assets/css/template.css">
+	<!-- JQUERY -->
+	<script type="text/javascript" src="<?php echo BASE_URL;?>assets/js/jquery-3.4.1.min.js"></script>
+	<!-- VARIÁVEL JAVASCRIPT -->
+	<script type="text/javascript">var BASE_URL="<?php echo BASE_URL;?>";</script> 
+	<!-- JAVASCRIPT -->
+	<script type="text/javascript" src="<?php echo BASE_URL;?>assets/js/script.js"></script>
 </head>
 <body>
 	<!-- DIV LEFTMENU -->
@@ -21,6 +27,7 @@
 				<li><a href="<?php echo BASE_URL ?>permissions">Permissões</a></li>
 				<li><a href="<?php echo BASE_URL ?>users">Usuários</a></li>
 				<li><a href="<?php echo BASE_URL ?>clients">Clientes</a></li>
+				<li><a href="<?php echo BASE_URL ?>inventory">Estoque</a></li>
 			</ul>
 		</div>
 		<!-- FIM DIV MENUAREA -->
@@ -51,11 +58,5 @@
 	</div>
 	<!-- FIM DIV CONTAINER -->
 
-	<!-- JQUERY -->
-	<script type="text/javascript" src="<?php echo BASE_URL;?>assets/js/jquery-3.4.1.min.js"></script> 
-	<!-- VARIÁVEL JAVASCRIPT -->
-	<script type="text/javascript">var BASE_URL="<?php echo BASE_URL;?>";</script> 
-	<!-- JAVASCRIPT -->
-	<script type="text/javascript" src="<?php echo BASE_URL;?>assets/js/script.js"></script>
 </body>
 </html>

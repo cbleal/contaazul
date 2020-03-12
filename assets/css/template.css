@@ -77,6 +77,9 @@ body {
 .menuarea li:nth-child(4) {	
 	background-image: url('../images/clients.png');
 }
+.menuarea li:nth-child(5) {	
+	background-image: url('../images/inventory.png');
+}
 .area {
 	padding: 15px;
 }
@@ -101,6 +104,7 @@ body {
 input[type=text],
 input[type=email],
 input[type=password],
+input[type=number],
 select,
 textarea {
 	width: 100%;
@@ -206,7 +210,7 @@ table td {
 }
 .searchresults {
 	width: 280px;
-	height: 200px;
+	/*height: 200px;*/
 	background-color: #FFF;
 	position: absolute;
 	border: 1px solid #CCC;

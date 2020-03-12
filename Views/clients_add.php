@@ -8,7 +8,7 @@
 	<input type="email" name="email"><br><br>
 	<!-- TELEFONE -->
 	<label for="phone">Telefone</label><br>
-	<input type="text" name="phone"><br><br>
+	<input type="text" name="phone" id="phone"><br><br>
 	<!-- CEP -->
 	<label for="address_zipcode">CEP</label><br>
 	<input type="text" name="address_zipcode"><br><br>
@@ -49,7 +49,7 @@
 	<input type="submit" value="Adicionar">
 
 	<!-- JQUERY -->
-	<script type="text/javascript" src="<?php echo BASE_URL;?>assets/js/jquery-3.4.1.min.js"></script> 
+	<script type="text/javascript" src="<?php echo BASE_URL;?>assets/js/jquery-3.4.1.min.js"></script> 	
 	<!-- JAVASCRIPT -->
 	<script type="text/javascript" src="<?php echo BASE_URL; ?>assets/js/script_clients_add.js"></script>
 </form>
