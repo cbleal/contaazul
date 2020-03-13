@@ -29,8 +29,17 @@
 					}
 				?>
 			</td>			
-			<td>
-				
+			<td width="160">
+				<div class="button button_small">
+					<a href="<?php echo BASE_URL; ?>inventory/edit/<?php echo $product['id']; ?>">
+						Editar
+					</a>
+				</div>
+				<div class="button button_small">
+					<a href="<?php echo BASE_URL; ?>inventory/delete/<?php echo $product['id'] ?>" onclick="return confirm('Deseja Relamente Excluir ?')">
+						Excluir
+					</a>
+				</div>
 			</td>
 		</tr>
 	<?php endforeach; ?>

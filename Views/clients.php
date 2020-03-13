@@ -24,12 +24,24 @@
 			<td width="160" style="text-align: center;">
 				<?php if ($edit_permission): ?>
 					<!-- BOTÃO EDITAR -->
-					<div class="button button_small"><a href="<?php echo BASE_URL; ?>/clients/edit/<?php echo $c['id']; ?>">Editar</a></div>
+					<div class="button button_small">
+						<a href="<?php echo BASE_URL; ?>/clients/edit/<?php echo $c['id']; ?>">
+							Editar
+						</a>
+					</div>
 					<!-- BOTÃO EXCLUIR -->
-					<div class="button button_small"><a href="<?php echo BASE_URL; ?>/clients/delete/<?php echo $c['id']; ?>" onclick="return confirm('Deseja Realmente Excluir ?')">Excluir</a></div>
+					<div class="button button_small">
+						<a href="<?php echo BASE_URL; ?>/clients/delete/<?php echo $c['id']; ?>" onclick="return confirm('Deseja Realmente Excluir ?')">
+							Excluir
+						</a>
+					</div>
 				<?php else: ?>
 						<!-- BOTÃO VISUALIZAR -->
-					<div class="button button_small"><a href="<?php echo BASE_URL; ?>/clients/view/<?php echo $c['id']; ?>">Visualizar</a></div>
+					<div class="button button_small">
+						<a href="<?php echo BASE_URL; ?>/clients/view/<?php echo $c['id']; ?>">
+							Visualizar
+						</a>
+					</div>
 				<?php endif; ?>
 			</td>
 		</tr>

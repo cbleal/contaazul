@@ -21,9 +21,17 @@
 					<td><?php echo $p['name']; ?></td>					
 					<td width="160">
 						<!-- BOTÃO EDITAR -->
-						<div class="button button_small"><a href="<?php echo BASE_URL; ?>/permissions/edit_group/<?php echo $p['id']; ?>">Editar</a></div>
+						<div class="button button_small">
+							<a href="<?php echo BASE_URL; ?>/permissions/edit_group/<?php echo $p['id']; ?>">
+								Editar
+							</a>
+						</div>
 						<!-- BOTÃO EXCLUIR -->
-						<div class="button button_small"><a href="<?php echo BASE_URL; ?>/permissions/delete_group/<?php echo $p['id']; ?>" onclick="return confirm('Deseja Realmente Excluir ?')">Excluir</a></div>
+						<div class="button button_small">
+							<a href="<?php echo BASE_URL; ?>/permissions/delete_group/<?php echo $p['id']; ?>" onclick="return confirm('Deseja Realmente Excluir ?')">
+								Excluir
+							</a>
+						</div>
 					</td>
 				</tr>
 			<?php endforeach; ?>
