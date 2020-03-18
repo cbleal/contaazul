@@ -80,6 +80,9 @@ body {
 .menuarea li:nth-child(5) {	
 	background-image: url('../images/inventory.png');
 }
+.menuarea li:nth-child(6) {	
+	background-image: url('../images/sales.png');
+}
 .area {
 	padding: 15px;
 }
@@ -228,4 +231,16 @@ table td {
 	color: #000;
 	text-decoration: none;
 	display: block;
+}
+#client_name {
+	width: 268px;
+	float: left;
+}
+.client_add_button {
+	font-size: 17px;
+	height: 37px;
+	line-height: 37px;
+	float: left;
+	margin-top: 4px;
+	margin-left: 10px;
 }

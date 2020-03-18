@@ -15,7 +15,7 @@
 	<!-- BOTÃO -->
 	<input type="submit" value="Adicionar">	
 </form>
-
-<!-- <script type="text/javascript" src="<?php echo BASE_URL; ?>assets/js/jquery-3.4.1.min.js"></script> -->
+<!-- JQUERY MASK -->
 <script type="text/javascript" src="<?php echo BASE_URL; ?>assets/js/jquery.mask.js"></script>
+<!-- SCRIPT INVENTORY ADD -->
 <script type="text/javascript" src="<?php echo BASE_URL; ?>assets/js/script_inventory_add.js"></script>

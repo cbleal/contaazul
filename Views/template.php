@@ -28,6 +28,7 @@
 				<li><a href="<?php echo BASE_URL ?>users">Usuários</a></li>
 				<li><a href="<?php echo BASE_URL ?>clients">Clientes</a></li>
 				<li><a href="<?php echo BASE_URL ?>inventory">Estoque</a></li>
+				<li><a href="<?php echo BASE_URL ?>sales">Vendas</a></li>
 			</ul>
 		</div>
 		<!-- FIM DIV MENUAREA -->

@@ -36,7 +36,7 @@
 					</a>
 				</div>
 				<div class="button button_small">
-					<a href="<?php echo BASE_URL; ?>inventory/delete/<?php echo $product['id'] ?>" onclick="return confirm('Deseja Relamente Excluir ?')">
+					<a href="<?php echo BASE_URL; ?>inventory/delete/<?php echo $product['id'] ?>" onclick="return confirm('Deseja Realmente Excluir ?')">
 						Excluir
 					</a>
 				</div>
