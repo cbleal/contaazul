@@ -47,7 +47,7 @@ class Clients extends Model
 
 		return $r;
 	}
-	public function add($name, $id_company, $email = '', $phone = '', $address_zipcode = '', $address = '', $address_number = '', $address2 = '', $address_neighb = '', $address_city = '', $address_state = '', $address_country = '', $stars = '3', $internal_obs = '')
+	public function add($id_company, $name, $email = '', $phone = '', $address_zipcode = '', $address = '', $address_number = '', $address2 = '', $address_neighb = '', $address_city = '', $address_state = '', $address_country = '', $stars = '3', $internal_obs = '')
 	{
 		$sql = "INSERT INTO clients SET name = :name, id_company = :id_company, email = :email, phone = :phone, address_zipcode = :address_zipcode, address = :address, address_number = :address_number, address2 = :address2, address_neighb = :address_neighb, address_city = :address_city, address_state = :address_state, address_country = :address_country, stars = :stars, internal_obs = :internal_obs";
 		$stmt = $this->db->prepare($sql);

@@ -1,10 +1,13 @@
 // função jquery
 $(function() {
 
+	// máscara no campo preço	
+	$('input[name=total_price]').mask('#.##0,00', {reverse:true, placeholder:'0,00'});
+
 	// função para adicionar um cliente (id, name)
 	$('.client_add_button').on('click', function(e) {
 		e.preventDefault();
-		var name = $('#client_name').val();
+		var name = $('#client_name').val();		
 		if (name != '' && name.length >= 4) {
 			if (confirm('Você deseja realmente adicionar o cliente '+name+' ?')) {
 				$.ajax({
@@ -14,8 +17,8 @@ $(function() {
 					dataType:'json',
 					success:function(json) {
 						$('.searchresults').hide();	
-						// id
-						$('#client_name').attr('data-id', json.id);
+						// id					
+						$('input[name=client_id]').val(json.id);
 					}
 				});
 				return false;
@@ -53,7 +56,8 @@ $(function() {
 				}				
 			});			
 		}
-	});
+	});	
+	
 });
 // função para selecionar cliente
 function selectClient(obj)
@@ -62,5 +66,5 @@ function selectClient(obj)
 	var name = $(obj).html();
 	$('.searchresults').hide();
 	$('#client_name').val(name);
-	$('#client_name').attr('data-id', id);
+	$('input[name=client_id]').val(id);
 }

@@ -54,20 +54,17 @@ class Sales extends Model
 		$stmt->bindValue(":action", $action);
 		$stmt->execute();
 	}
-	public function add($name, $price, $quant, $min_quant, $id_company, $id_user)
+	public function add($id_company, $id_client, $id_user, $total_price, $status)
 	{
-		$sql = "INSERT INTO inventory SET name = :name, price = :price, quant = :quant, min_quant = :min_quant, id_company = :id_company";
+		$sql = "INSERT INTO sales SET id_company = :id_company, id_client = :id_client, id_user = :id_user, date_sale = NOW(), total_price = :total_price, status = :status";
 		$stmt = $this->db->prepare($sql);
-		$stmt->bindValue(":name", $name);
-		$stmt->bindValue(":price", $price);
-		$stmt->bindValue(":quant", $quant);
-		$stmt->bindValue(":min_quant", $min_quant);
 		$stmt->bindValue(":id_company", $id_company);
+		$stmt->bindValue(":id_client", $id_client);
+		$stmt->bindValue(":id_user", $id_user);
+		$stmt->bindValue(":total_price", $total_price);
+		$stmt->bindValue(":status", $status);
 		$stmt->execute();
-
-		$id_product = $this->db->lastInsertId();
-
-		$this->setLog($id_company, $id_product, $id_user, "add");		
+			
 	}
 	public function edit($id, $name, $price, $quant, $min_quant, $id_company, $id_user)
 	{

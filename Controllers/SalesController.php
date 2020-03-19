@@ -25,6 +25,11 @@ class SalesController extends Controller
 		$company = new Companies($u->getCompany());
 		$data['company_name'] = $company->getName();
 		$data['user_email'] = $u->getEmail();
+		$data['statuses'] = array(
+			'0' => 'Aguardando Pgto',
+			'1' => 'Pago',
+			'2' => 'Cancelado'
+		);
 
 		if ($u->hasPermission('sales_view')) {
 			$s = new Sales();			
@@ -49,29 +54,28 @@ class SalesController extends Controller
 		$data['user_email'] = $u->getEmail();
 
 		if ($u->hasPermission('sales_add')) {
-
-			$s = new Sales();
 			
-			if (isset($_POST['name']) && !empty($_POST['name'])) {
+			if (isset($_POST['client_id']) && !empty($_POST['client_id'])) {
 
-				$name = addslashes($_POST['name']);
-				$price = addslashes($_POST['price']);
-				$quant = addslashes($_POST['quant']);
-				$min_quant = addslashes($_POST['min_quant']);
+				$s = new Sales();
+
+				$id_client   = addslashes($_POST['client_id']);
+				$total_price = addslashes($_POST['total_price']);
+				$status      = addslashes($_POST['status']);
+				
 				// formato moeda para gravar no banco de dados: 1234.56
-				$price = str_replace(',', '.', str_replace('.', '', $price));
+				$total_price = str_replace(',', '.', str_replace('.', '', $total_price));
 
-				$i->add($name, $price, $quant, $min_quant, 
-						$u->getCompany(), $u->getId());
+				$s->add($u->getCompany(), $id_client, $u->getId(), $total_price, $status);
 
-				header("Location: " . BASE_URL . "/inventory");
+				header("Location: " . BASE_URL . "/sales");
 				
 			}
 			// carrega o template
 			$this->loadTemplate('sales_add', $data);
 		} else {
-			// volta para view clients
-			header("Location: " . BASE_URL . "/inventory");
+			// volta para view sales
+			header("Location: " . BASE_URL);
 		}
 	}		
 	public function delete($id)
