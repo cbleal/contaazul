@@ -4,6 +4,7 @@ use \Core\Controller;
 use \Models\Users;
 use \Models\Companies;
 use \Models\Clients;
+use \Models\Inventory;
 
 class AjaxController extends Controller
 {
@@ -50,6 +51,21 @@ class AjaxController extends Controller
 		if (isset($_POST['name']) && !empty($_POST['name'])) {
 			$name = addslashes($_POST['name']);
 			$data['id'] = $c->add($u->getCompany(), $name);
+		}
+
+		echo json_encode($data);
+	}
+	public function search_products()
+	{
+		$data = array();
+		$u = new Users();
+		$u->setLoggedUser();		
+
+		$i = new Inventory();
+
+		if (isset($_GET['q']) && !empty($_GET['q'])) {
+			$q = addslashes($_GET['q']);
+			$data = $i->searchProductByName($q, $u->getCompany());			
 		}
 
 		echo json_encode($data);

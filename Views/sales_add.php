@@ -10,14 +10,29 @@
 	<br><br>
 	<!-- VALOR -->
 	<label for="total_price">Valor da Venda</label>
-	<input type="text" name="total_price"><br><br>
+	<input type="text" name="total_price" disabled="disable"><br><br>
 	<!-- STATUS -->
 	<label for="status">Status da Venda</label><br>
 	<select name="status" id="status">
 		<option value="0">Aguardando Pgto</option>
 		<option value="1">Pago</option>
 		<option value="2">Cancelado</option>
-	</select><br><br>	
+	</select><br><br>
+	<hr>
+	<fieldset>
+		<legend>Adicionar Produto</legend>
+		<input type="text" id="add_prod" data-type="search_products">
+	</fieldset>
+	<table id="product_table" border="0" width="100%">
+		<tr>
+			<th>Nome do Produto</th>
+			<th>Qtde</th>
+			<th>Preço Unitário</th>
+			<th>Sub-Total</th>
+			<th>Ações</th>
+		</tr>
+	</table>
+	<hr>
 	<!-- BOTÃO -->
 	<input type="submit" value="Adicionar Venda">
 </form>

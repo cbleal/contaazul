@@ -83,4 +83,19 @@ class Inventory extends Model
 
 		$this->setLog($id_company, $id, $id_user, "del");
 	}
+	public function searchProductByName($name, $id_company)
+	{
+		$array = array();
+		$sql = "SELECT id, name, price FROM inventory WHERE name LIKE :name AND id_company = :id_company LIMIT 10";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(":name", "%".$name."%");
+		$stmt->bindValue(":id_company", $id_company);
+		$stmt->execute();
+
+		if ($stmt->rowCount() > 0) {
+			$array = $stmt->fetchAll();
+		}
+
+		return $array;
+	}
 }

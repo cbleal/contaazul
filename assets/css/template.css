@@ -244,3 +244,6 @@ table td {
 	margin-top: 4px;
 	margin-left: 10px;
 }
+.p_quant {
+	width: 40px !important;
+}
