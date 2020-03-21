@@ -26,20 +26,20 @@
 			<td>
 				R$ <?php echo number_format($sale_item['total_price'], 2, ',', '.'); ?>
 			</td>
-			<td width="70" style="text-align:center">
+			<td width="140">
 				<?php echo $statuses[$sale_item['status']]; ?>
 			</td>
-			<td width="160">
+			<td width="140" style="text-align:center">
 				<div class="button button_small">
 					<a href="<?php echo BASE_URL; ?>sales/edit/<?php echo $sale_item['id']; ?>">
 						Editar
 					</a>
 				</div>
-				<div class="button button_small">
+				<!-- <div class="button button_small">
 					<a href="<?php echo BASE_URL; ?>sales/delete/<?php echo $sale_item['id'] ?>" onclick="return confirm('Deseja Realmente Excluir ?')">
 						Excluir
 					</a>
-				</div>
+				</div> -->
 			</td>
 		</tr>
 	<?php endforeach; ?>

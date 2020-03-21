@@ -77,15 +77,44 @@ class SalesController extends Controller
 			// volta para view sales
 			header("Location: " . BASE_URL);
 		}
-	}		
-	public function delete($id)
+	}
+	public function edit($id)
 	{
+		$data = array();
+
 		$u = new Users();
 		$u->setLoggedUser();
-		if ($u->hasPermission('inventory_edit')) {
-			$i = new Inventory();
-			$i->delete($id, $u->getCompany(), $u->getId());
-			header("Location: " . BASE_URL . "/sales");
+		$company = new Companies($u->getCompany());
+		$data['company_name'] = $company->getName();
+		$data['user_email'] = $u->getEmail();
+		$data['statuses'] = array(
+			'0' => 'Aguardando Pgto',
+			'1' => 'Pago',
+			'2' => 'Cancelado'
+		);
+
+		if ($u->hasPermission('sales_view')) {
+			
+				$s = new Sales();
+				$data['permission_edit'] = $u->hasPermission('sales_edit');
+
+			if (isset($_POST['status']) && $data['permission_edit']) {
+							
+				$status = addslashes($_POST['status']);			
+				
+				$s->changeStatus($status, $id, $u->getCompany());
+				
+				header("Location: " . BASE_URL . "/sales");
+				
+			}
+
+			$data['sales_info'] = $s->getInfo($id, $u->getCompany());			
+			
+			$this->loadTemplate('sales_edit', $data);
+		} else {
+			
+			header("Location: " . BASE_URL);
 		}
-	}	
+	}		
+	
 }

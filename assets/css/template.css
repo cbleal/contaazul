@@ -83,6 +83,9 @@ body {
 .menuarea li:nth-child(6) {	
 	background-image: url('../images/sales.png');
 }
+.menuarea li:nth-child(7) {	
+	background-image: url('../images/purchases.png');
+}
 .area {
 	padding: 15px;
 }

@@ -33,14 +33,36 @@ class Sales extends Model
 	public function getInfo($id, $id_company)
 	{
 		$array = array();
-		$sql = "SELECT * FROM inventory WHERE id = :id AND id_company = :id_company";
+
+		// INFORMAÇÕES DA VENDA E NOME DO CLIENTE
+		$sql = "SELECT *,
+				( SELECT clients.name FROM clients WHERE clients.id = sales.id_client ) AS client_name 
+				FROM sales 
+				WHERE 
+				id = :id AND id_company = :id_company";
 		$stmt = $this->db->prepare($sql);
 		$stmt->bindValue(":id", $id);
 		$stmt->bindValue(":id_company", $id_company);
 		$stmt->execute();
-
 		if ($stmt->rowCount() > 0) {
-			$array = $stmt->fetch();
+			$array['info'] = $stmt->fetch();
+		}
+
+		// INFORMAÇÕES DOS PRODUTOS DA VENDA E NOME DO PRODUTO
+		$sql = "SELECT 
+				sales_products.quant,
+				sales_products.sale_price,
+				inventory.name 
+				FROM sales_products 
+				LEFT JOIN inventory ON inventory.id = sales_products.id_product 
+				WHERE sales_products.id_sale = :id_sale 
+				AND sales_products.id_company = :id_company";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(":id_sale", $id);
+		$stmt->bindValue(":id_company", $id_company);
+		$stmt->execute();
+		if ($stmt->rowCount() > 0) {
+			$array['products'] = $stmt->fetchAll();
 		}
 
 		return $array;
@@ -124,15 +146,14 @@ class Sales extends Model
 		$stmt->execute();
 
 		$this->setLog($id_company, $id, $id_user, "edt");
-	}
-	public function delete($id, $id_company, $id_user)
+	}	
+	public function changeStatus($status, $id, $id_company)
 	{
-		$sql = "DELETE FROM inventory WHERE id = :id AND id_company = :id_company";
+		$sql = "UPDATE sales SET status = :status WHERE id = :id AND id_company = :id_company";
 		$stmt = $this->db->prepare($sql);		
+		$stmt->bindValue(":status", $status);
 		$stmt->bindValue(":id", $id);
 		$stmt->bindValue(":id_company", $id_company);
 		$stmt->execute();
-
-		$this->setLog($id_company, $id, $id_user, "del");
 	}
 }
