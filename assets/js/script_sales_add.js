@@ -111,7 +111,7 @@ function addProd(obj)
 
 	$('.searchresults').hide();
 
-	// verifica se o produto já está na tabela
+	// verifica se o campo já está na tabela
 	if ($('input[name="quant['+id+']"]').length == 0) {
 		var tr = 
 		'<tr>'+
@@ -149,6 +149,7 @@ function updateTotal()
 {
 	var total = 0;
 	for (var q = 0; q < $('.p_quant').length; q++) {
+		// selecionar o campo
 		var quant = $('.p_quant').eq(q);
 		var price = quant.attr('data-price');
 		var subtotal = price * parseInt(quant.val());

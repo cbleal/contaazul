@@ -5,6 +5,7 @@ use \Models\Users;
 use \Models\Companies;
 use \Models\Permissions;
 use \Models\Sales;
+use \Models\Inventory;
 
 class SalesController extends Controller
 {
@@ -60,14 +61,13 @@ class SalesController extends Controller
 				$s = new Sales();
 
 				$id_client   = addslashes($_POST['client_id']);
-				$total_price = addslashes($_POST['total_price']);
+				// $total_price = addslashes($_POST['total_price']);
 				$status      = addslashes($_POST['status']);
+				$quant       = $_POST['quant'];				
 				
-				// formato moeda para gravar no banco de dados: 1234.56
-				$total_price = str_replace(',', '.', str_replace('.', '', $total_price));
-
-				$s->add($u->getCompany(), $id_client, $u->getId(), $total_price, $status);
-
+				// função adiciona do objeto
+				$s->addSale($u->getCompany(), $id_client, $u->getId(), $quant, $status);
+				// redireciona para página
 				header("Location: " . BASE_URL . "/sales");
 				
 			}
@@ -85,7 +85,7 @@ class SalesController extends Controller
 		if ($u->hasPermission('inventory_edit')) {
 			$i = new Inventory();
 			$i->delete($id, $u->getCompany(), $u->getId());
-			header("Location: " . BASE_URL . "/inventory");
+			header("Location: " . BASE_URL . "/sales");
 		}
 	}	
 }
