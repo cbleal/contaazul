@@ -1,15 +1,15 @@
 <h1>Compras - Adicionar</h1>
 <form method="POST">
 	<!-- ID -->
-	<input type="hidden" name="client_id">
+	<input type="hidden" name="provider_id">
 	<!-- NOME -->
-	<label for="client_name">Nome do Fornecedor</label><br>
-	<input type="text" name="client_name" id="client_name" data-type="search_clients">
-	<button class="client_add_button">+</button>
+	<label for="provider_name">Nome do Fornecedor</label><br>
+	<input type="text" name="provider_name" id="provider_name" data-type="search_providers">
+	<button class="provider_add_button">+</button>
 	<div style="clear:both"></div>
 	<br><br>
 	<!-- VALOR -->
-	<label for="total_price">Valor da Venda</label>
+	<label for="total_price">Valor da Compra</label>
 	<input type="text" name="total_price" disabled="disable"><br><br>
 	<!-- STATUS -->
 	<label for="status">Status da Venda</label><br>
@@ -34,9 +34,9 @@
 	</table>
 	<hr>
 	<!-- BOTÃO -->
-	<input type="submit" value="Adicionar Venda">
+	<input type="submit" value="Adicionar Compra">
 </form>
 <!-- JQUERY MASK -->
 <script type="text/javascript" src="<?php echo BASE_URL; ?>assets/js/jquery.mask.js"></script>
 <!-- SCRIPT SALES ADD -->
-<script type="text/javascript" src="<?php echo BASE_URL; ?>assets/js/script_sales_add.js"></script>
+<script type="text/javascript" src="<?php echo BASE_URL; ?>assets/js/script_purchases_add.js"></script>

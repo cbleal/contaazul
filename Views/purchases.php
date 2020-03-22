@@ -15,28 +15,28 @@
 		<th>Status</th>
 		<th>Ações</th>
 	</tr>
-	<?php foreach($sales_list as $sale_item): ?>
+	<?php foreach($purchases_list as $purchase_item): ?>
 		<tr>
 			<td>
-				<?php echo $sale_item['name']; ?>					
+				<?php echo $purchase_item['name']; ?>					
 			</td>
 			<td>
-				<?php echo date('d/m/Y', strtotime($sale_item['date_sale'])); ?>
+				<?php echo date('d/m/Y', strtotime($purchase_item['date_purchase'])); ?>
 			</td>
 			<td>
-				R$ <?php echo number_format($sale_item['total_price'], 2, ',', '.'); ?>
+				R$ <?php echo number_format($purchase_item['total_price'], 2, ',', '.'); ?>
 			</td>
 			<td width="140">
-				<?php echo $statuses[$sale_item['status']]; ?>
+				<?php echo $statuses[$purchase_item['status']]; ?>
 			</td>
 			<td width="140" style="text-align:center">
 				<div class="button button_small">
-					<a href="<?php echo BASE_URL; ?>sales/edit/<?php echo $sale_item['id']; ?>">
+					<a href="<?php echo BASE_URL; ?>purchases/edit/<?php echo $purchase_item['id']; ?>">
 						Editar
 					</a>
 				</div>
 				<!-- <div class="button button_small">
-					<a href="<?php echo BASE_URL; ?>sales/delete/<?php echo $sale_item['id'] ?>" onclick="return confirm('Deseja Realmente Excluir ?')">
+					<a href="<?php echo BASE_URL; ?>sales/delete/<?php echo $purchase_item['id'] ?>" onclick="return confirm('Deseja Realmente Excluir ?')">
 						Excluir
 					</a>
 				</div> -->

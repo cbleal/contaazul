@@ -238,11 +238,13 @@ table td {
 	text-decoration: none;
 	display: block;
 }
-#client_name {
+#client_name,
+#provider_name {
 	width: 268px;
 	float: left;
 }
-.client_add_button {
+.client_add_button,
+.provider_add_button {
 	font-size: 17px;
 	height: 37px;
 	line-height: 37px;

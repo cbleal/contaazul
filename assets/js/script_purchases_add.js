@@ -5,20 +5,20 @@ $(function() {
 	$('input[name=total_price]').mask('#.##0,00', {reverse:true, placeholder:'R$ 0,00'});
 
 	// função para adicionar um cliente (id, name)
-	$('.client_add_button').on('click', function(e) {
+	$('.provider_add_button').on('click', function(e) {
 		e.preventDefault();
-		var name = $('#client_name').val();		
+		var name = $('#provider_name').val();		
 		if (name != '' && name.length >= 4) {
-			if (confirm('Você deseja realmente adicionar o cliente '+name+' ?')) {
+			if (confirm('Você deseja realmente adicionar o fornecedor '+name+' ?')) {
 				$.ajax({
-					url:BASE_URL+'ajax/add_client',
+					url:BASE_URL+'ajax/add_provider',
 					type:'POST',
 					data:{name:name},
 					dataType:'json',
 					success:function(json) {
 						$('.searchresults').hide();	
 						// id					
-						$('input[name=client_id]').val(json.id);
+						$('input[name=provider_id]').val(json.id);
 					}
 				});
 				return false;
@@ -27,7 +27,7 @@ $(function() {
 	});
 
 	// função para busca ao digitar no campo
-	$('#client_name').on('keyup', function() {
+	$('#provider_name').on('keyup', function() {
 		var datatype = $(this).attr('data-type');
 		var q = $(this).val();
 		if (datatype != '') {			
@@ -39,16 +39,16 @@ $(function() {
 				success:function(json) {
 
 					if ( $('.searchresults').length == 0 ) {
-						$('#client_name').after('<div class="searchresults"></div>');
+						$('#provider_name').after('<div class="searchresults"></div>');
 					}
 
-					$('.searchresults').css('left', $('#client_name').offset().left+'px');
-					$('.searchresults').css('top', $('#client_name').offset().top+$('#client_name').height()+3+'px');
+					$('.searchresults').css('left', $('#provider_name').offset().left+'px');
+					$('.searchresults').css('top', $('#provider_name').offset().top+$('#provider_name').height()+3+'px');
 					
 					var html = '';
 
 					for (var i in json) {
-						html += '<div class="si"><a href="javascript:;" onclick="selectClient(this)" data-id="'+json[i].id+'">'+json[i].name+'</div>';
+						html += '<div class="si"><a href="javascript:;" onclick="selectProvider(this)" data-id="'+json[i].id+'">'+json[i].name+'</div>';
 					}
 
 					$('.searchresults').html(html);
@@ -78,7 +78,7 @@ $(function() {
 					
 					var html = '';
 
-					for (var i in json) {
+					for (var i in json) {						
 						html += '<div class="si"><a href="javascript:;" onclick="addProd(this)" data-id="'+json[i].id+'" data-price="'+json[i].price+'" data-name="'+json[i].name+'">'+json[i].name+' - '+formatNumber(json[i].price)+'</div>';
 					}
 
@@ -90,14 +90,14 @@ $(function() {
 	});	
 	
 });
-// função para selecionar cliente
-function selectClient(obj)
+// função para selecionar fornecedor
+function selectProvider(obj)
 {
 	var id = $(obj).attr('data-id');
 	var name = $(obj).html();
 	$('.searchresults').hide();
-	$('#client_name').val(name);
-	$('input[name=client_id]').val(id);
+	$('#provider_name').val(name);
+	$('input[name=provider_id]').val(id);
 }
 // função para adicionar produtos
 function addProd(obj)
@@ -108,6 +108,7 @@ function addProd(obj)
 	var id    = $(obj).attr('data-id');
 	var name  = $(obj).attr('data-name');
 	var price = $(obj).attr('data-price');
+	
 
 	$('.searchresults').hide();
 
@@ -118,7 +119,7 @@ function addProd(obj)
 			'<td>'+name+'</td>'+
 			'<td><input type="number" name="quant['+id+']" class="p_quant" value="1" onchange="updateSubTotal(this)" data-price="'+price+'" /></td>'+
 			'<td>'+formatNumber(price)+'</td>'+
-			'<td class="subtotal">R$ '+formatNumber(price)+'</td>'+
+			'<td class="subtotal">'+formatNumber(price)+'</td>'+
 			'<td><a href="javascript:;" onclick="excluirProd(this)">Excluir</a></td>'+			
 		'</tr>';
 		
@@ -140,7 +141,7 @@ function updateSubTotal(obj)
 		quant = 1;
 	}
 	var price = $(obj).attr('data-price');
-	var subtotal = price * quant;	
+	var subtotal = price * quant;
 	$(obj).closest('tr').find('.subtotal').html(formatNumber(subtotal));
 
 	updateTotal();
@@ -151,7 +152,7 @@ function updateTotal()
 	for (var q = 0; q < $('.p_quant').length; q++) {
 		// selecionar o campo
 		var quant = $('.p_quant').eq(q);
-		var price = quant.attr('data-price');
+		var price = quant.attr('data-price');		
 		var subtotal = price * parseInt(quant.val());
 		total += subtotal;
 	}

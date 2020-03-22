@@ -26,17 +26,17 @@ class PurchasesController extends Controller
 		$company = new Companies($u->getCompany());
 		$data['company_name'] = $company->getName();
 		$data['user_email'] = $u->getEmail();
-		// $data['statuses'] = array(
-		// 	'0' => 'Aguardando Pgto',
-		// 	'1' => 'Pago',
-		// 	'2' => 'Cancelado'
-		// );
+		$data['statuses'] = array(
+			'0' => 'Aguardando Pgto',
+			'1' => 'Pago',
+			'2' => 'Cancelado'
+		);
 
 		if ($u->hasPermission('purchases_view')) {
 			$p = new Purchases();			
 			$offset = 0;
 			$data['purchases_list'] = $p->getList($offset, $u->getCompany());		
-			$data['add_permission'] = $u->hasPermission('purchases_add');
+			$data['add_permission'] = $u->hasPermission('purchases_view');
 			
 			$this->loadTemplate('purchases', $data);
 		} else {
@@ -54,25 +54,24 @@ class PurchasesController extends Controller
 		$data['company_name'] = $company->getName();
 		$data['user_email'] = $u->getEmail();
 
-		if ($u->hasPermission('sales_add')) {
+		if ($u->hasPermission('purchases_add')) {
 			
-			if (isset($_POST['client_id']) && !empty($_POST['client_id'])) {
+			if (isset($_POST['provider_id']) && !empty($_POST['provider_id'])) {
 
-				$s = new Sales();
+				$p = new Purchases();
 
-				$id_client   = addslashes($_POST['client_id']);
-				// $total_price = addslashes($_POST['total_price']);
+				$id_provider = addslashes($_POST['provider_id']);				
 				$status      = addslashes($_POST['status']);
 				$quant       = $_POST['quant'];				
 				
 				// função adiciona do objeto
-				$s->addSale($u->getCompany(), $id_client, $u->getId(), $quant, $status);
+				$p->addPurchase($u->getCompany(), $id_provider, $u->getId(), $quant, $status);
 				// redireciona para página
-				header("Location: " . BASE_URL . "/sales");
+				header("Location: " . BASE_URL . "/purchases");
 				
 			}
 			// carrega o template
-			$this->loadTemplate('sales_add', $data);
+			$this->loadTemplate('purchases_add', $data);
 		} else {
 			// volta para view sales
 			header("Location: " . BASE_URL);
@@ -95,22 +94,22 @@ class PurchasesController extends Controller
 
 		if ($u->hasPermission('sales_view')) {
 			
-				$s = new Sales();
-				$data['permission_edit'] = $u->hasPermission('sales_edit');
+				$p = new Purchases();
+				$data['permission_edit'] = $u->hasPermission('purchases_edit');
 
 			if (isset($_POST['status']) && $data['permission_edit']) {
 							
 				$status = addslashes($_POST['status']);			
 				
-				$s->changeStatus($status, $id, $u->getCompany());
+				$p->changeStatus($status, $id, $u->getCompany());
 				
-				header("Location: " . BASE_URL . "/sales");
+				header("Location: " . BASE_URL . "/purchases");
 				
 			}
 
-			$data['sales_info'] = $s->getInfo($id, $u->getCompany());			
+			$data['purchases_info'] = $p->getInfo($id, $u->getCompany());			
 			
-			$this->loadTemplate('sales_edit', $data);
+			$this->loadTemplate('purchases_edit', $data);
 		} else {
 			
 			header("Location: " . BASE_URL);

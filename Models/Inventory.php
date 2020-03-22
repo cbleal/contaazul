@@ -108,4 +108,14 @@ class Inventory extends Model
 
 		$this->setLog($id_company, $id_prod, $id_user, "dwn");
 	}
+	public function increase($id_prod, $id_company, $quant_prod, $id_user)
+	{
+		$sql = "UPDATE inventory SET quant = quant + $quant_prod WHERE id = :id_product AND id_company = :id_company";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(":id_product", $id_prod);
+		$stmt->bindValue(":id_company", $id_company);
+		$stmt->execute();
+
+		$this->setLog($id_company, $id_prod, $id_user, "inc");
+	}
 }

@@ -9,16 +9,16 @@ class Purchases extends Model
 	{
 		$array = array();
 		$sql = "SELECT
-					s.id,
-					c.name,
-					s.date_sale,
-					s.total_price,
-					s.status
-				FROM sales AS s
-				LEFT JOIN clients AS c
-				ON c.id = s.id_client
-				WHERE s.id_company = :id_company
-				ORDER BY s.date_sale DESC
+					pu.id,
+					pr.name,
+					pu.date_purchase,
+					pu.total_price,
+					pu.status
+				FROM purchases AS pu
+				LEFT JOIN providers AS pr
+				ON pr.id = pu.id_provider
+				WHERE pu.id_company = :id_company
+				ORDER BY pu.date_purchase DESC
 				LIMIT $offset,10";
 		$stmt = $this->db->prepare($sql);
 		$stmt->bindValue(":id_company", $id_company);
@@ -34,10 +34,10 @@ class Purchases extends Model
 	{
 		$array = array();
 
-		// INFORMAÇÕES DA VENDA E NOME DO CLIENTE
+		// INFORMAÇÕES DA COMPRA E NOME DO FORNECEDOR
 		$sql = "SELECT *,
-				( SELECT clients.name FROM clients WHERE clients.id = sales.id_client ) AS client_name 
-				FROM sales 
+				( SELECT providers.name FROM providers WHERE providers.id = purchases.id_provider ) AS provider_name 
+				FROM purchases 
 				WHERE 
 				id = :id AND id_company = :id_company";
 		$stmt = $this->db->prepare($sql);
@@ -48,17 +48,17 @@ class Purchases extends Model
 			$array['info'] = $stmt->fetch();
 		}
 
-		// INFORMAÇÕES DOS PRODUTOS DA VENDA E NOME DO PRODUTO
+		// INFORMAÇÕES DOS PRODUTOS DA COMPRA E NOME DO PRODUTO
 		$sql = "SELECT 
-				sales_products.quant,
-				sales_products.sale_price,
+				purchases_products.quant,
+				purchases_products.purchase_price,
 				inventory.name 
-				FROM sales_products 
-				LEFT JOIN inventory ON inventory.id = sales_products.id_product 
-				WHERE sales_products.id_sale = :id_sale 
-				AND sales_products.id_company = :id_company";
+				FROM purchases_products 
+				LEFT JOIN inventory ON inventory.id = purchases_products.id_product 
+				WHERE purchases_products.id_purchase = :id_purchase 
+				AND purchases_products.id_company = :id_company";
 		$stmt = $this->db->prepare($sql);
-		$stmt->bindValue(":id_sale", $id);
+		$stmt->bindValue(":id_purchase", $id);
 		$stmt->bindValue(":id_company", $id_company);
 		$stmt->execute();
 		if ($stmt->rowCount() > 0) {
@@ -77,22 +77,22 @@ class Purchases extends Model
 		$stmt->bindValue(":action", $action);
 		$stmt->execute();
 	}
-	public function addSale($id_company, $id_client, $id_user, $quant, $status)
+	public function addPurchase($id_company, $id_provider, $id_user, $quant, $status)
 	{
 		$i = new Inventory();
 
-		// ADICIONAR A VENDA
-		$sql = "INSERT INTO sales SET id_company = :id_company, id_client = :id_client, id_user = :id_user, date_sale = NOW(), total_price = :total_price, status = :status";
+		// ADICIONAR A COMPRA
+		$sql = "INSERT INTO purchases SET id_company = :id_company, id_provider = :id_provider, id_user = :id_user, date_purchase = NOW(), total_price = :total_price, status = :status";
 		$stmt = $this->db->prepare($sql);
 		$stmt->bindValue(":id_company", $id_company);
-		$stmt->bindValue(":id_client", $id_client);
+		$stmt->bindValue(":id_provider", $id_provider);
 		$stmt->bindValue(":id_user", $id_user);
 		$stmt->bindValue(":total_price", 0); // ADD TOTAL_PRICE = 0
 		$stmt->bindValue(":status", $status);
 		$stmt->execute();
 
 		// ID DA VENDA
-		$id_sale = $this->db->lastInsertId();
+		$id_purchase = $this->db->lastInsertId();
 
 		// CALCULAR O TOTAL_PRICE
 		$total_price = 0;
@@ -109,27 +109,27 @@ class Purchases extends Model
 				$price = $row['price'];
 
 				// ADICIONA OS PRODUTOS DA VENDA (SALES_PRODUCTS)
-				$sqlp = "INSERT INTO sales_products SET id_company = :id_company, id_sale = :id_sale, id_product = :id_product, quant = :quant, sale_price = :sale_price";
+				$sqlp = "INSERT INTO purchases_products SET id_company = :id_company, id_purchase = :id_purchase, id_product = :id_product, quant = :quant, purchase_price = :purchase_price";
 				$stmtp = $this->db->prepare($sqlp);
 				$stmtp->bindValue(":id_company", $id_company);
-				$stmtp->bindValue(":id_sale", $id_sale);
+				$stmtp->bindValue(":id_purchase", $id_purchase);
 				$stmtp->bindValue(":id_product", $id_prod);
 				$stmtp->bindValue(":quant", $quant_prod);
-				$stmtp->bindValue(":sale_price", $price);
+				$stmtp->bindValue(":purchase_price", $price);
 				$stmtp->execute();
 
-				// DAR BAIXA NO ESTOQUE (INVENTORY)
-				$i->decrease($id_prod, $id_company, $quant_prod, $id_user);
+				// DAR ENTRADA NO ESTOQUE (INVENTORY)
+				$i->increase($id_prod, $id_company, $quant_prod, $id_user);
 
 				$total_price += $price * $quant_prod;
 			}
 		}
 
-		// ATUALIZAR O CAMPO TOTAL_PRICE NA TABELA SALES
-		$sql = "UPDATE sales SET total_price = :total_price WHERE id = :id";
+		// ATUALIZAR O CAMPO TOTAL_PRICE NA TABELA PURCHASES
+		$sql = "UPDATE purchases SET total_price = :total_price WHERE id = :id";
 		$stmt = $this->db->prepare($sql);
 		$stmt->bindValue(":total_price", $total_price);
-		$stmt->bindValue(":id", $id_sale);
+		$stmt->bindValue(":id", $id_purchase);
 		$stmt->execute();
 			
 	}
@@ -149,7 +149,7 @@ class Purchases extends Model
 	}	
 	public function changeStatus($status, $id, $id_company)
 	{
-		$sql = "UPDATE sales SET status = :status WHERE id = :id AND id_company = :id_company";
+		$sql = "UPDATE purchases SET status = :status WHERE id = :id AND id_company = :id_company";
 		$stmt = $this->db->prepare($sql);		
 		$stmt->bindValue(":status", $status);
 		$stmt->bindValue(":id", $id);
