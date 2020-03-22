@@ -4,9 +4,9 @@ use \Core\Controller;
 use \Models\Users;
 use \Models\Companies;
 use \Models\Permissions;
-use \Models\Clients;
+use \Models\Providers;
 
-class ClientsController extends Controller
+class ProvidersController extends Controller
 {
 	public function __construct()
 	{
@@ -26,12 +26,12 @@ class ClientsController extends Controller
 		$data['company_name'] = $company->getName();
 		$data['user_email'] = $u->getEmail();
 
-		if ($u->hasPermission('clients_view')) {
-			$c = new Clients();
+		if ($u->hasPermission('providers_view')) {
+			$p = new Providers();
 			// offset
 			$offset = 0;
 			// número de clientes por página
-			$clients_p = 10;
+			$providers_p = 10;
 			// página atual
 			$data['p'] = 1;
 			// pegar a página clicada
@@ -42,17 +42,17 @@ class ClientsController extends Controller
 				}
 			}
 			// calcular offset
-			$offset = ($clients_p * ($data['p'] - 1));
+			$offset = ($providers_p * ($data['p'] - 1));
 			// número de registro de clientes
-			$data['clients_count'] = $c->getCount($u->getCompany());			
+			$data['providers_count'] = $p->getCount($u->getCompany());			
 			// calcular o número de páginas
-			$data['p_count'] = ceil($data['clients_count']/$clients_p);
+			$data['p_count'] = ceil($data['providers_count']/$providers_p);
 			// lista de clientes
-			$data['clients_list'] = $c->getList($offset, $u->getCompany());
+			$data['providers_list'] = $p->getList($offset, $u->getCompany());
 			// permissão do usuário
-			$data['edit_permission'] = $u->hasPermission('clients_edit');
+			$data['edit_permission'] = $u->hasPermission('providers_edit');
 			// carrega o template
-			$this->loadTemplate('clients', $data);
+			$this->loadTemplate('providers', $data);
 		} else {
 			// volta para home
 			header("Location: " . BASE_URL);
@@ -68,13 +68,14 @@ class ClientsController extends Controller
 		$data['company_name'] = $company->getName();
 		$data['user_email'] = $u->getEmail();
 
-		if ($u->hasPermission('clients_edit')) {
+		if ($u->hasPermission('providers_edit')) {
 
-			$c = new Clients();
+			$p = new Providers();
 			
-			if (isset($_POST['name']) && !empty($_POST['name'])) {
+			if (isset($_POST['name']) && !empty($_POST['name'])) {				
 
 				$name = addslashes($_POST['name']);
+				$cnpj = addslashes($_POST['cnpj']);
 				$email = addslashes($_POST['email']);
 				$phone = addslashes($_POST['phone']);
 				$address_zipcode = addslashes($_POST['address_zipcode']);
@@ -88,16 +89,16 @@ class ClientsController extends Controller
 				$stars = addslashes($_POST['stars']);
 				$internal_obs = addslashes($_POST['internal_obs']);
 
-				$c->add($name, $email, $phone, $address_zipcode, $address, $address_number, $address2, $address_neighb, $address_city, $address_state, $address_country, $stars, $internal_obs, $u->getCompany());
+				$p->add($u->getCompany(), $name, $cnpj, $email, $phone, $address_zipcode, $address, $address_number, $address2, $address_neighb, $address_city, $address_state, $address_country, $stars, $internal_obs);
 
-				header("Location: " . BASE_URL . "/clients");
+				header("Location: " . BASE_URL . "/providers");
 				
 			}
 			// carrega o template
-			$this->loadTemplate('clients_add', $data);
+			$this->loadTemplate('providers_add', $data);
 		} else {
 			// volta para view clients
-			header("Location: " . BASE_URL . "/clients");
+			header("Location: " . BASE_URL . "/providers");
 		}
 	}	
 	public function edit($id)
@@ -110,13 +111,14 @@ class ClientsController extends Controller
 		$data['company_name'] = $company->getName();
 		$data['user_email'] = $u->getEmail();
 
-		if ($u->hasPermission('clients_edit')) {
+		if ($u->hasPermission('providers_edit')) {
 
-			$c = new Clients();
+			$p = new Providers();
 			
 			if (isset($_POST['name']) && !empty($_POST['name'])) {
 
 				$name = addslashes($_POST['name']);
+				$cnpj = addslashes($_POST['cnpj']);
 				$email = addslashes($_POST['email']);
 				$phone = addslashes($_POST['phone']);
 				$address_zipcode = addslashes($_POST['address_zipcode']);
@@ -130,18 +132,18 @@ class ClientsController extends Controller
 				$stars = addslashes($_POST['stars']);
 				$internal_obs = addslashes($_POST['internal_obs']);
 
-				$c->edit($id, $name, $email, $phone, $address_zipcode, $address, $address_number, $address2, $address_neighb, $address_city, $address_state, $address_country, $stars, $internal_obs, $u->getCompany());
+				$p->edit($id, $name, $cnpj, $email, $phone, $address_zipcode, $address, $address_number, $address2, $address_neighb, $address_city, $address_state, $address_country, $stars, $internal_obs, $u->getCompany());
 
-				header("Location: " . BASE_URL . "/clients");
+				header("Location: " . BASE_URL . "/providers");
 				
 			}
 			// carrega o cliente
-			$data['client_info'] = $c->getInfo($id, $u->getCompany());
+			$data['provider_info'] = $p->getInfo($id, $u->getCompany());
 			// carrega o template
-			$this->loadTemplate('clients_edit', $data);
+			$this->loadTemplate('providers_edit', $data);
 		} else {
 			// volta para view clients
-			header("Location: " . BASE_URL . "/clients");
+			header("Location: " . BASE_URL . "/providers");
 		}
 	}
 	public function delete($id)

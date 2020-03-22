@@ -4,6 +4,7 @@ use \Core\Controller;
 use \Models\Users;
 use \Models\Companies;
 use \Models\Clients;
+use \Models\Providers;
 use \Models\Inventory;
 
 class AjaxController extends Controller
@@ -51,6 +52,28 @@ class AjaxController extends Controller
 		if (isset($_POST['name']) && !empty($_POST['name'])) {
 			$name = addslashes($_POST['name']);
 			$data['id'] = $c->add($u->getCompany(), $name);
+		}
+
+		echo json_encode($data);
+	}
+	public function search_providers()
+	{
+		$data = array();
+		$u = new Users();
+		$u->setLoggedUser();
+		
+		$p = new Providers();
+
+		if (isset($_GET['q']) && !empty($_GET['q'])) {
+			$q = addslashes($_GET['q']);
+			$providers = $p->searchProviderByName($q, $u->getCompany());
+			foreach ($providers as $citem) {
+				$data[] = array(
+					'id' => $citem['id'],
+					'name' => $citem['name'],
+					'link' => BASE_URL . 'providers/edit/' . $citem['id']
+				);
+			}
 		}
 
 		echo json_encode($data);

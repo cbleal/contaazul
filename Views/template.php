@@ -27,6 +27,7 @@
 				<li><a href="<?php echo BASE_URL ?>permissions">Permissões</a></li>
 				<li><a href="<?php echo BASE_URL ?>users">Usuários</a></li>
 				<li><a href="<?php echo BASE_URL ?>clients">Clientes</a></li>
+				<li><a href="<?php echo BASE_URL ?>providers">Fornecedores</a></li>
 				<li><a href="<?php echo BASE_URL ?>inventory">Estoque</a></li>
 				<li><a href="<?php echo BASE_URL ?>sales">Vendas</a></li>
 				<li><a href="<?php echo BASE_URL ?>purchases">Compras</a></li>
