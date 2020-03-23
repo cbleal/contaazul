@@ -156,4 +156,73 @@ class Sales extends Model
 		$stmt->bindValue(":id_company", $id_company);
 		$stmt->execute();
 	}
+	public function getSalesFiltered($client_name, $period1, $period2, $status, $order, $id_company)
+	{
+		$array = array();
+
+		$sql = "SELECT
+				clients.name,
+				sales.date_sale,
+				sales.status,
+				sales.total_price
+				FROM sales 
+				LEFT JOIN clients
+				ON clients.id = sales.id_client
+				WHERE ";
+		$where = array();
+		$where[] = "sales.id_company = :id_company";
+
+		if (!empty($client_name)) {
+			$where[] = "clients.name LIKE '%".$client_name."%'";
+		}
+
+		if (!empty($period1) && !empty($period2)) {
+			$where[] = "sales.date_sale BETWEEN :period1 AND :period2";
+		}
+
+		if ($status != '') {
+			$where[] = "sales.status = :status";
+		}
+
+		$sql .= implode(' AND ', $where);
+
+		switch ($order) {
+			case 'date_desc':
+			default:
+				$sql .= " ORDER BY sales.date_sale DESC";
+				break;
+			case 'date_asc':
+				$sql .= " ORDER BY sales.date_sale ASC";
+				break;
+			case 'status':
+				$sql .= " ORDER BY sales.status";
+				break;		
+			
+		}
+
+		// echo $sql;
+
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(":id_company", $id_company);
+		
+		if (!empty($period1) && !empty($period2)) {
+			$stmt->bindValue(":period1", $period1);
+			$stmt->bindValue(":period2", $period2);
+		}
+		if ($status != '') {
+			$stmt->bindValue(":status", $status);
+		}
+
+		if ($stmt->rowCount() > 0) {
+			$array = $stmt->fetchAll();
+		}
+
+		$stmt->execute();
+
+		if ($stmt->rowCount() > 0) {
+			$array = $stmt->fetchAll();
+		}
+
+		return $array;
+	}
 }

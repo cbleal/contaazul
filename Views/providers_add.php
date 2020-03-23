@@ -5,7 +5,7 @@
 	<input type="text" name="name" required><br><br>
 	<!-- CNPJ -->
 	<label for="cnpj">CNPJ</label><br>
-	<input type="text" name="cnpj" required><br><br>
+	<input type="text" name="cnpj" min="14" max="14" required><br><br>
 	<!-- EMAIL -->
 	<label for="email">Email</label><br>
 	<input type="email" name="email"><br><br>

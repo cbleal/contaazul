@@ -156,4 +156,75 @@ class Purchases extends Model
 		$stmt->bindValue(":id_company", $id_company);
 		$stmt->execute();
 	}
+	public function getPurchasesFiltered($provider_name, $period1, $period2, $status, $order, $id_company)
+	{
+		$array = array();
+
+		$sql = "SELECT
+				providers.name,
+				purchases.date_purchase,
+				purchases.status,
+				purchases.total_price
+				FROM purchases
+				LEFT JOIN providers
+				ON providers.id = purchases.id_provider
+				WHERE ";
+
+		$where[] = "purchases.id_company = :id_company";
+
+		// FILTROS
+		// NAME
+		if (!empty($provider_name)) {
+			$where[] = "providers.name LIKE '%".$provider_name."%'";
+		}
+		// PERIODO
+		if (!empty($period1) && !empty($period2)) {
+			$where[] = "purchases.date_purchase BETWEEN :period1 AND :period2";
+		}
+		// STATUS
+		if ($status != '') {
+			$where[] = "purchases.status = :status";
+		}
+
+		// MONTA A SQL
+		// transforma o array em string juntando com um delimitador
+		$sql .= implode(' AND ', $where);
+
+		// ORDEM
+		switch ($order) {
+			case 'date_asc':
+				$sql .= " ORDER BY purchases.date_purchase ASC";
+				break;
+			case 'status':
+				$sql .= " ORDER BY purchases.status";
+				break;
+			default:
+				$sql .= " ORDER BY purchases.date_purchase DESC";
+				break;
+		}
+
+		// echo "sql: ".$sql; exit;
+
+		// PREPARE DO SQL
+		$stmt = $this->db->prepare($sql);
+		// SUBSTITUIR NO SQL
+		$stmt->bindValue(":id_company", $id_company);
+		// PERIODO
+		if (!empty($period1) && !empty($period2)) {
+			$stmt->bindValue(":period1", $period1);
+			$stmt->bindValue(":period2", $period2);
+		}
+		// STATUS
+		if ($status != '') {
+			$stmt->bindValue(":status", $status);
+		}
+
+		$stmt->execute();
+
+		if ($stmt->rowCount() > 0) {
+			$array = $stmt->fetchAll();
+		}
+
+		return $array;
+	}
 }

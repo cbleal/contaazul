@@ -31,6 +31,7 @@
 				<li><a href="<?php echo BASE_URL ?>inventory">Estoque</a></li>
 				<li><a href="<?php echo BASE_URL ?>sales">Vendas</a></li>
 				<li><a href="<?php echo BASE_URL ?>purchases">Compras</a></li>
+				<li><a href="<?php echo BASE_URL ?>reports">Relatórios</a></li>
 			</ul>
 		</div>
 		<!-- FIM DIV MENUAREA -->

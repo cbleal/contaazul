@@ -3,6 +3,9 @@
 	<!-- NOME -->
 	<label for="name">Nome</label><br>
 	<input type="text" name="name" value="<?php echo $provider_info['name']; ?>" required><br><br>
+	<!-- CNPJ -->
+	<label for="cnpj">CNPJ</label><br>
+	<input type="text" name="cnpj" min="14" max="14" value="<?php echo $provider_info['cnpj']; ?>" required><br><br>
 	<!-- EMAIL -->
 	<label for="email">Email</label><br>
 	<input type="email" name="email" value="<?php echo $provider_info['email']; ?>"><br><br>
