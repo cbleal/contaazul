@@ -35,4 +35,4 @@
 	</div>
 </form>
 
-<script type="text/javascript" src="<?php echo BASE_URL; ?>assets/js/report_sales.js"></script>
+<script type="text/javascript" src="<?php echo BASE_URL; ?>assets/js/script_report_sales.js"></script>

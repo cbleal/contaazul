@@ -5,6 +5,8 @@ use \Models\Users;
 use \Models\Companies;
 use \Models\Permissions;
 use \Models\Purchases;
+use \Models\Sales;
+use \Models\Inventory;
 
 class ReportsController extends Controller
 {
@@ -165,6 +167,50 @@ class ReportsController extends Controller
 		}
 		else {
 
+			header("Location: " . BASE_URL);
+		}
+	}
+	public function inventory()
+	{
+		$data = array();
+
+		$u = new Users();
+		$u->setLoggedUser();
+		$company = new Companies($u->getCompany());
+		$data['company_name'] = $company->getName();
+		$data['user_email'] = $u->getEmail();
+		
+		if ($u->hasPermission('reports_view')) {
+
+			// vai para a o template: reports_sales
+			$this->loadTemplate('report_inventory', $data);
+		} else {
+			// volta para home
+			header("Location: " . BASE_URL);
+		}
+	}
+	public function inventory_pdf()
+	{
+		$data = array();
+
+		$u = new Users();
+		$u->setLoggedUser();	
+
+		if ($u->hasPermission('reports_view')) {
+
+			$i = new Inventory();
+			$data['inventory_list'] = $i->getInventoryFiltered($u->getCompany());
+			
+			ob_start(); // todo o html não imprime na tela, envia p memória			
+			$this->loadView('report_inventory_pdf', $data);
+			$html = ob_get_contents(); // pega da memória e armazena na variável
+			ob_end_clean(); // limpa a memória
+
+			$mpdf = new \Mpdf\Mpdf();
+			$mpdf->WriteHTML($html);
+			$mpdf->Output();
+		} else {
+			// volta para home
 			header("Location: " . BASE_URL);
 		}
 	}
