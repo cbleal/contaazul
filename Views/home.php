@@ -27,15 +27,29 @@
 <div class="db-row row2">
 	<div class="grid-2">
 		<div class="db-info">
-			<div class="db-info-title">Título</div>
-			<div class="db-info-body">...</div>
+			<div class="db-info-title">Relatório de Despesas e Receitas dos últimos 30 dias</div>
+			<div class="db-info-body" style="height: 360px;">
+				<canvas id="rel1"></canvas>
+			</div>
+
 		</div>
 	</div>
 	<div class="grid-1">
 		<div class="db-info">
-			<div class="db-info-title">Título</div>
-			<div class="db-info-body">...</div>
+			<div class="db-info-title">Status de Pagamento</div>
+			<div class="db-info-body" style="height: 360px;">
+				<canvas id="rel2" height="300px"></canvas>
+		 	</div>
 		</div>
 	</div>	
 </div>
 <!-- FIM DIV DB-ROW 2 -->
+
+<!-- GERAR VARIAVEL -->
+<script type="text/javascript">
+	var days_list = <?php echo json_encode($days_list); ?>; // transforma array em json
+</script>
+<!-- JAVASCRIPT CHART -->
+<script type="text/javascript" src="<?php echo BASE_URL; ?>assets/js/Chart.min.js"></script>
+<!-- JAVASCRIPT  -->
+<script type="text/javascript" src="<?php echo BASE_URL; ?>assets/js/script_home.js"></script>

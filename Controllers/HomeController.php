@@ -33,6 +33,11 @@ class HomeController extends Controller
 
 		$data['expenses'] = $s->getTotalExpense(date('Y-m-d', strtotime('-30 days')), date('Y-m-d'), $u->getCompany());
 
+		$data['days_list'] = array();
+		for ($i=30; $i>0; $i--) {
+			$data['days_list'][] = date('d/m', strtotime('-'.$i.' days'));
+		}
+
 		$this->loadTemplate('home', $data);
 	}
 }
