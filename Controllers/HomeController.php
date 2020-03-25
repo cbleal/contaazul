@@ -27,6 +27,12 @@ class HomeController extends Controller
 
 		$s = new Sales();
 
+		$data['statuses'] = array(
+			'0' => 'Aguardando Pgto',
+			'1' => 'Pago',
+			'2' => 'Cancelado'
+		);
+
 		$data['products_sold'] = $s->getSoldProducts(date('Y-m-d', strtotime('-30 days')), date('Y-m-d'), $u->getCompany());
 
 		$data['revenue'] = $s->getTotalRevenue(date('Y-m-d', strtotime('-30 days')), date('Y-m-d'), $u->getCompany());
@@ -37,6 +43,12 @@ class HomeController extends Controller
 		for ($i=30; $i>0; $i--) {
 			$data['days_list'][] = date('d/m', strtotime('-'.$i.' days'));
 		}
+
+		$data['revenue_list'] = $s->getRevenueList(date('Y-m-d', strtotime('-30 days')), date('Y-m-d'), $u->getCompany());
+
+		$data['expenses_list'] = $s->getExpensesList(date('Y-m-d', strtotime('-30 days')), date('Y-m-d'), $u->getCompany());
+
+		$data['status_list'] = $s->getQuantStatusList(date('Y-m-d', strtotime('-30 days')), date('Y-m-d'), $u->getCompany());
 
 		$this->loadTemplate('home', $data);
 	}

@@ -48,6 +48,10 @@
 <!-- GERAR VARIAVEL -->
 <script type="text/javascript">
 	var days_list = <?php echo json_encode($days_list); ?>; // transforma array em json
+	var revenue_list = <?php echo json_encode(array_values($revenue_list)); ?>;
+	var expenses_list = <?php echo json_encode(array_values($expenses_list)); ?>;
+	var status_name_list = <?php echo json_encode(array_values($statuses)); ?>;
+	var status_list = <?php echo json_encode(array_values($status_list)); ?>;
 </script>
 <!-- JAVASCRIPT CHART -->
 <script type="text/javascript" src="<?php echo BASE_URL; ?>assets/js/Chart.min.js"></script>

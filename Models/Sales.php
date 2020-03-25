@@ -281,7 +281,10 @@ class Sales extends Model
 			}
 
 			// contar os produtos na tabela vendas_produtos
-			$sql = "SELECT COUNT(*) AS total FROM sales_products WHERE id_sale IN (".implode(',', $p).")";
+			$sql = "SELECT COUNT(*) AS total 
+					FROM sales_products 
+					WHERE id_sale 
+					IN (".implode(',', $p).")";
 			$stmt = $this->db->query($sql);
 			$n = $stmt->fetch();
 			$int = $n['total'];
@@ -289,5 +292,106 @@ class Sales extends Model
 
 		return $int;
 
+	}
+	public function getRevenueList($period1, $period2, $id_company)
+	{
+		$array = array();
+		// PREENCHER O ARRAY
+		$currentDay = $period1;
+		while ($period2 != $currentDay) {
+			$array[$currentDay] = 0;
+			$currentDay = date( 'Y-m-d', strtotime('+1 day', strtotime($currentDay)) );
+		}
+		// LISTA DAS VENDAS AGRUPADAS POR DIA/MÊS E SUAS RESPECTIVAS SOMAS
+		$sql = "SELECT DATE_FORMAT(date_sale, '%Y-%m-%d') AS date_sale,
+				SUM(total_price) AS total
+				FROM sales 
+				WHERE id_company = :id_company 
+				AND date_sale BETWEEN :period1 AND :period2
+				GROUP BY DATE_FORMAT(date_sale, '%Y-%m-%d')";
+
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(":id_company", $id_company);
+		$stmt->bindValue(":period1", $period1);
+		$stmt->bindValue(":period2", $period2);
+		$stmt->execute();
+
+		if ($stmt->rowCount() > 0) {
+			
+			$rows = $stmt->fetchAll();
+
+			foreach ($rows as $sale_item) {
+				
+				$array[$sale_item['date_sale']] = $sale_item['total'];
+			}
+		}
+
+		return $array;
+	}
+	public function getExpensesList($period1, $period2, $id_company)
+	{
+		$array = array();
+		// PREENCHER O ARRAY
+		$currentDay = $period1;
+		while ($period2 != $currentDay) {
+			$array[$currentDay] = 0;
+			$currentDay = date( 'Y-m-d', strtotime('+1 day', strtotime($currentDay)) );
+		}
+		// LISTA DAS VENDAS AGRUPADAS POR DIA/MÊS E SUAS RESPECTIVAS SOMAS
+		$sql = "SELECT DATE_FORMAT(date_purchase, '%Y-%m-%d') AS date_purchase,
+				SUM(total_price) AS total
+				FROM purchases 
+				WHERE id_company = :id_company 
+				AND date_purchase BETWEEN :period1 AND :period2
+				GROUP BY DATE_FORMAT(date_purchase, '%Y-%m-%d')";
+
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(":id_company", $id_company);
+		$stmt->bindValue(":period1", $period1);
+		$stmt->bindValue(":period2", $period2);
+		$stmt->execute();
+
+		if ($stmt->rowCount() > 0) {
+			
+			$rows = $stmt->fetchAll();
+
+			foreach ($rows as $sale_item) {
+				
+				$array[$sale_item['date_purchase']] = $sale_item['total'];
+			}
+		}
+
+		return $array;
+	}
+	public function getQuantStatusList($period1, $period2, $id_company)
+	{
+		$array = array('0' => 0, '1' => 0, '2' => 0);
+			
+		// LISTA DAS VENDAS AGRUPADAS POR STATUS E SUAS RESPECTIVAS SOMAS
+		$sql = "SELECT COUNT(id)
+				AS total, status
+				FROM sales 
+				WHERE id_company = :id_company 
+				AND date_sale BETWEEN :period1 AND :period2
+				GROUP BY status
+				ORDER BY status DESC";
+
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(":id_company", $id_company);
+		$stmt->bindValue(":period1", $period1);
+		$stmt->bindValue(":period2", $period2);
+		$stmt->execute();
+
+		if ($stmt->rowCount() > 0) {
+			
+			$rows = $stmt->fetchAll();
+
+			foreach ($rows as $sale_item) {
+				
+				$array[$sale_item['status']] = $sale_item['total'];
+			}
+		}
+
+		return $array;
 	}
 }
