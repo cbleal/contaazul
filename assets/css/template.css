@@ -4,6 +4,9 @@ body {
 	font-size: 13px;
 	font-family: Arial;		
 }
+form {
+	padding-right: 10px;
+}
 .leftmenu {
 	width: 200px;
 	background-color: #1f232a;	
@@ -174,6 +177,9 @@ table td {
 	padding-left: 10px;
 	padding-right: 10px;
 }
+table th.th-center, td.td-center {
+	text-align: center;
+}
 .p_item {
 	height: 25px;
 	line-height: 25px;
@@ -317,7 +323,6 @@ table td {
 .db-grid-area-legend {
 	font-size: 14px;
 }
-
 .db-info {
 	margin-top: 20px;
 	margin-left: 10px;

@@ -14,8 +14,11 @@
 			<input type="submit" value="Entrar"/>
 
 			<?php if (isset($error) && !empty($error)): ?>
-				<div class="warning"><?php echo $error ?></div>
+				<div class="warning">
+					<?php echo $error ?>
+				</div>
 			<?php endif; ?>	
+			
 		</form>
 	</div>
 

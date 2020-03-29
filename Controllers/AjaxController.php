@@ -6,6 +6,7 @@ use \Models\Companies;
 use \Models\Clients;
 use \Models\Providers;
 use \Models\Inventory;
+use \Models\Cidades;
 
 class AjaxController extends Controller
 {
@@ -105,6 +106,29 @@ class AjaxController extends Controller
 			$q = addslashes($_GET['q']);
 			$data = $i->searchProductByName($q, $u->getCompany());			
 		}
+
+		echo json_encode($data);
+	}
+	public function getListCities()
+	{
+		$data = array();
+		$u = new Users();
+		$u->setLoggedUser();
+		
+		$ci = new Cidades();
+
+		if (isset($_GET['state']) && !empty($_GET['state'])) {
+			$state = addslashes($_GET['state']);
+			$data = $ci->getListCities($state);
+
+		}
+
+		// foreach ($$data['cities'] as $citem) {
+		// 	$data[] = array(
+		// 		'codigo_municipio' => $citem['CodigoMunicipio'],
+		// 		'nome' => $citem['Nome'],					
+		// 	);
+		// }
 
 		echo json_encode($data);
 	}

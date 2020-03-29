@@ -21,7 +21,7 @@
 	<hr>
 	<fieldset>
 		<legend>Adicionar Produto</legend>
-		<input type="text" id="add_prod" data-type="search_products">
+		<input type="text" id="add_prod" data-type="search_products" style="width: 1080px;">
 	</fieldset>
 	<table id="product_table" border="0" width="100%">
 		<tr>

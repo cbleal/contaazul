@@ -11,16 +11,16 @@
 	<tr>
 		<th>Nome</th>
 		<th>Preço</th>
-		<th>Qtde</th>
-		<th>Qtde Min.</th>
-		<th>Ações</th>
+		<th class="th-center">Qtde</th>
+		<th class="th-center">Qtde Min.</th>
+		<th class="th-center">Ações</th>
 	</tr>
 	<?php foreach($inventory_list as $product): ?>
 		<tr>
 			<td><?php echo $product['name']; ?></td>
 			<td>R$ <?php echo number_format($product['price'], 2, ',', '.'); ?></td>
 			<td width="70" style="text-align:center"><?php echo $product['quant']; ?></td>
-			<td width="90" style="text-align:center">
+			<td width="90" class="td-center">
 				<?php
 					if ($product['min_quant'] > $product['quant']) {
 						echo '<span style="color:red">'.($product['min_quant']).'</span>';
@@ -29,7 +29,7 @@
 					}
 				?>
 			</td>			
-			<td width="160">
+			<td width="160" class="td-center">
 				<div class="button button_small">
 					<a href="<?php echo BASE_URL; ?>inventory/edit/<?php echo $product['id']; ?>">
 						Editar

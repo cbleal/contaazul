@@ -13,7 +13,7 @@
 		<th>Telefone</th>
 		<th>Cidade</th>
 		<th>Estrelas</th>
-		<th style="text-align: center;">Ações</th>
+		<th class="th-center">Ações</th>
 	</tr>
 	<?php foreach ($providers_list as $p):?>	
 		<tr>			
@@ -21,7 +21,7 @@
 			<td width="100"><?php echo $p['phone']; ?></td>				
 			<td width="150"><?php echo $p['address_city']; ?></td>				
 			<td width="70" style="text-align: center;"><?php echo $p['stars']; ?></td>				
-			<td width="160" style="text-align: center;">
+			<td width="160" class="td-center">
 				<?php if ($edit_permission): ?>
 					<!-- BOTÃO EDITAR -->
 					<div class="button button_small">

@@ -13,13 +13,18 @@ class Permissions extends Model
 		$this->group = $id;
 		$this->permissions = array();
 
-		$sql = "SELECT params FROM permission_groups WHERE id = :id AND id_company = :id_company";
+		$sql = "SELECT params 
+				FROM permission_groups 
+				WHERE id = :id 
+				AND id_company = :id_company";
+
 		$stmt = $this->db->prepare($sql);
 		$stmt->bindValue(":id", $id);
 		$stmt->bindValue(":id_company", $id_company);
 		$stmt->execute();
 
 		if ($stmt->rowCount() > 0) {
+
 			$row = $stmt->fetch();				
 			if (empty($row['params'])) {
 				$row['params'] = 0;
@@ -27,12 +32,17 @@ class Permissions extends Model
 
 			$params = $row['params'];
 
-			$sql = "SELECT name FROM permission_params WHERE id IN($params) AND id_company = :id_company";
+			$sql = "SELECT name 
+					FROM permission_params 
+					WHERE id IN($params) 
+					AND id_company = :id_company";
+
 			$stmt = $this->db->prepare($sql);
 			$stmt->bindValue(":id_company", $id_company);
 			$stmt->execute();
 
 			if ($stmt->rowCount() > 0) {
+
 				foreach ($stmt->fetchAll() as $item) {
 					$this->permissions[] = $item['name'];
 				}
@@ -42,20 +52,28 @@ class Permissions extends Model
 	public function hasPermission($name)
 	{
 		if (in_array($name, $this->permissions)) {
+
 			return true;
 		} else {
+
 			return false;
 		}
 	}
-	public function getList($id_company)
+	public function getList($offset, $id_company)
 	{
 		$array = array();
-		$sql = "SELECT * FROM permission_params WHERE id_company = :id_company";
+
+		$sql = "SELECT * 
+				FROM permission_params 
+				WHERE id_company = :id_company 
+				LIMIT $offset,10";
+
 		$stmt = $this->db->prepare($sql);
 		$stmt->bindValue(":id_company", $id_company);
 		$stmt->execute();
 
 		if ($stmt->rowCount() > 0) {
+
 			$array = $stmt->fetchAll();
 		}
 
@@ -64,12 +82,17 @@ class Permissions extends Model
 	public function getGroupList($id_company)
 	{
 		$array = array();
-		$sql = "SELECT * FROM permission_groups WHERE id_company = :id_company";
+
+		$sql = "SELECT * 
+				FROM permission_groups 
+				WHERE id_company = :id_company";
+
 		$stmt = $this->db->prepare($sql);
 		$stmt->bindValue(":id_company", $id_company);
 		$stmt->execute();
 
 		if ($stmt->rowCount() > 0) {
+
 			$array = $stmt->fetchAll();
 		}
 
@@ -78,22 +101,47 @@ class Permissions extends Model
 	public function getGroup($id)
 	{
 		$array = array();
-		$sql = "SELECT * FROM permission_groups WHERE id = :id";
+
+		$sql = "SELECT * 
+				FROM permission_groups 
+				WHERE id = :id";
+
 		$stmt = $this->db->prepare($sql);
 		$stmt->bindValue(":id", $id);
 		$stmt->execute();
 
 		if ($stmt->rowCount() > 0) {
+
 			$array = $stmt->fetch();
 			$array['params'] = explode(',', $array['params']);
 		}
 
 		return $array;
+	}	
+	public function getCount($id_company)
+	{
+		$r = 0;
+
+		$sql = "SELECT 
+				COUNT(*) AS c 
+				FROM permission_params 
+				WHERE id_company = :id_company";
+		
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(":id_company", $id_company);
+		$stmt->execute();
+
+		$row = $stmt->fetch();
+		$r = $row['c'];
+
+		return $r;
+
 	}
 	public function add($name, $id_company)
 	{
-		$sql = "INSERT INTO permission_params SET name = :name, 
-				id_company = :id_company";
+		$sql = "INSERT INTO permission_params 
+				SET name = :name, id_company = :id_company";
+
 		$stmt = $this->db->prepare($sql);
 		$stmt->bindValue(":name", $name);
 		$stmt->bindValue(":id_company", $id_company);
@@ -102,7 +150,10 @@ class Permissions extends Model
 	public function addGroup($name, $list, $id_company)
 	{
 		$params = implode(',', $list);
-		$sql = "INSERT INTO permission_groups SET name = :name, id_company = :id_company, 	params = :params";
+
+		$sql = "INSERT INTO permission_groups 
+				SET name = :name, id_company = :id_company, 	params = :params";
+
 		$stmt = $this->db->prepare($sql);
 		$stmt->bindValue(":name", $name);
 		$stmt->bindValue(":id_company", $id_company);
@@ -112,6 +163,7 @@ class Permissions extends Model
 	public function delete($id)
 	{
 		$sql = "DELETE FROM permission_params WHERE id = :id";
+
 		$stmt = $this->db->prepare($sql);		
 		$stmt->bindValue(":id", $id);
 		$stmt->execute();
@@ -119,8 +171,11 @@ class Permissions extends Model
 	public function deleteGroup($id)
 	{
 		$u = new Users();
-		if (!$u->findUsersInGroup($id)) {			
+
+		if (!$u->findUsersInGroup($id)) {	
+
 			$sql = "DELETE FROM permission_groups WHERE id = :id";
+
 			$stmt = $this->db->prepare($sql);		
 			$stmt->bindValue(":id", $id);
 			$stmt->execute();
@@ -128,13 +183,18 @@ class Permissions extends Model
 	}
 	public function editGroup($name, $list, $id, $id_company)
 	{
-		$params = implode(',', $list);		
-		$sql = "UPDATE permission_groups SET name = :name, id_company = :id_company, 	params = :params WHERE id = :id";
+		$params = implode(',', $list);
+
+		$sql = "UPDATE permission_groups 
+				SET name = :name, id_company = :id_company, params = :params 
+				WHERE id = :id";
+				
 		$stmt = $this->db->prepare($sql);
 		$stmt->bindValue(":name", $name);
 		$stmt->bindValue(":id_company", $id_company);
 		$stmt->bindValue(":params", $params);
 		$stmt->bindValue(":id", $id);
 		$stmt->execute();
-	}	
+	}
+	
 }

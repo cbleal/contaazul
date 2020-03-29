@@ -5,6 +5,7 @@ use \Models\Users;
 use \Models\Companies;
 use \Models\Permissions;
 use \Models\Clients;
+use \Models\Cidades;
 
 class ClientsController extends Controller
 {
@@ -68,9 +69,11 @@ class ClientsController extends Controller
 		$data['company_name'] = $company->getName();
 		$data['user_email'] = $u->getEmail();
 
+		$ci = new Cidades();
+
 		if ($u->hasPermission('clients_edit')) {
 
-			$c = new Clients();
+			$c  = new Clients();			
 			
 			if (isset($_POST['name']) && !empty($_POST['name'])) {
 
@@ -82,21 +85,27 @@ class ClientsController extends Controller
 				$address_number = addslashes($_POST['address_number']);
 				$address2 = addslashes($_POST['address2']);
 				$address_neighb = addslashes($_POST['address_neighb']);
-				$address_city = addslashes($_POST['address_city']);
+				// $address_city = addslashes($_POST['address_city']);
+				$address_citycode = addslashes($_POST['address_city']);
 				$address_state = addslashes($_POST['address_state']);
 				$address_country = addslashes($_POST['address_country']);
 				$stars = addslashes($_POST['stars']);
 				$internal_obs = addslashes($_POST['internal_obs']);
+				
+				$address_city  = $ci->getCity($address_citycode);
 
-				$c->add($name, $email, $phone, $address_zipcode, $address, $address_number, $address2, $address_neighb, $address_city, $address_state, $address_country, $stars, $internal_obs, $u->getCompany());
+				$c->add($u->getCompany(), $name, $email, $phone, $address_zipcode, $address, $address_number, $address2, $address_neighb, $address_city, $address_citycode, $address_state, $address_country, $stars, $internal_obs);
 
 				header("Location: " . BASE_URL . "/clients");
 				
 			}
-			// carrega o template
-			$this->loadTemplate('clients_add', $data);
+			// LISTA DE ESTADOS
+			$data['states_list'] = $ci->getListStates();				
+						
+			$this->loadTemplate('clients_add_select', $data);
+			// $this->loadTemplate('clients_add', $data);
 		} else {
-			// volta para view clients
+			
 			header("Location: " . BASE_URL . "/clients");
 		}
 	}	
@@ -112,7 +121,8 @@ class ClientsController extends Controller
 
 		if ($u->hasPermission('clients_edit')) {
 
-			$c = new Clients();
+			$c  = new Clients();
+			$ci = new Cidades();
 			
 			if (isset($_POST['name']) && !empty($_POST['name'])) {
 
@@ -124,21 +134,27 @@ class ClientsController extends Controller
 				$address_number = addslashes($_POST['address_number']);
 				$address2 = addslashes($_POST['address2']);
 				$address_neighb = addslashes($_POST['address_neighb']);
-				$address_city = addslashes($_POST['address_city']);
+				$address_citycode = addslashes($_POST['address_city']);
 				$address_state = addslashes($_POST['address_state']);
 				$address_country = addslashes($_POST['address_country']);
 				$stars = addslashes($_POST['stars']);
 				$internal_obs = addslashes($_POST['internal_obs']);
 
-				$c->edit($id, $name, $email, $phone, $address_zipcode, $address, $address_number, $address2, $address_neighb, $address_city, $address_state, $address_country, $stars, $internal_obs, $u->getCompany());
+				$address_city = $ci->getCity($address_citycode);
+
+				$c->edit($id, $name, $email, $phone, $address_zipcode, $address, $address_number, $address2, $address_neighb, $address_city, $address_citycode, $address_state, $address_country, $stars, $internal_obs, $u->getCompany());
 
 				header("Location: " . BASE_URL . "/clients");
 				
 			}
-			// carrega o cliente
-			$data['client_info'] = $c->getInfo($id, $u->getCompany());
+			// CLIENTE
+			$data['client_info'] = $c->getInfo($id, $u->getCompany());						
+			// LISTA DE ESTADOS
+			$data['states_list'] = $ci->getListStates();
+			// LISTA DE CIDADES
+			$data['cities_list'] = $ci->getListCities($data['client_info']['address_state']);
 			// carrega o template
-			$this->loadTemplate('clients_edit', $data);
+			$this->loadTemplate('clients_edit_select', $data);
 		} else {
 			// volta para view clients
 			header("Location: " . BASE_URL . "/clients");

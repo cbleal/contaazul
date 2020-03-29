@@ -4,9 +4,7 @@
 		width: 1123px;
 	}
 </style>
-
 <h1>Clientes - Adicionar</h1>
-<div class="form">
 <form method="POST">
 	<!-- NOME -->
 	<label for="name">Nome</label><br>
@@ -16,10 +14,11 @@
 	<input type="email" name="email"><br><br>
 	<!-- TELEFONE -->
 	<label for="phone">Telefone</label><br>
-	<input type="text" name="phone" id="phone"><br><br>
+	<input type="text" name="phone" id="phone" onkeypress="$(this).mask('(00) 0 0000-0000')"><br><br>
 	<!-- CEP -->
 	<label for="address_zipcode">CEP</label><br>
 	<input type="text" name="address_zipcode" minlength="8" maxlength="8" onkeypress="$(this).mask('00.000-000')"><br><br>
+	<!-- <input type="text" name="address_zipcode" minlength="8" maxlength="8" onkeypress="$(this).mask('00.000-000')"><br><br> -->
 	<!-- ENDEREÇO -->
 	<label for="address">Endereço</label><br>
 	<input type="text" name="address"><br><br>
@@ -33,11 +32,19 @@
 	<label for="address_neighb">Bairro</label><br>
 	<input type="text" name="address_neighb"><br><br>
 	<!-- ESTADO -->
-	<label for="address_state">Estado</label><br>
-	<input type="text" name="address_state"><br><br>
+	<label for="address_state">Estado</label><br>	
+	<select name="address_state" id="state" onchange="getCity(this)">
+		<?php foreach ($states_list as $state): ?>
+			<option value="<?php echo $state['Uf']; ?>">
+				<?php echo $state['Uf']; ?>					
+			</option>
+		<?php endforeach; ?>
+	</select><br><br>
 	<!-- CIDADE -->
 	<label for="address_city">Cidade</label><br>
-	<input type="text" name="address_city"><br><br>
+	<select name="address_city" id="city">		
+
+	</select><br><br>
 	<!-- PAÍS -->
 	<label for="address_country">País</label><br>
 	<input type="text" name="address_country"><br><br>
@@ -56,7 +63,6 @@
 	<!-- BOTÃO -->
 	<input type="submit" value="Adicionar">
 </form>
-</div>
 
 <!-- JQUERY MASK -->
 <script type="text/javascript" src="<?php echo BASE_URL; ?>assets/js/jquery.mask.js"></script>

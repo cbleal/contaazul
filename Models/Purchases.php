@@ -5,7 +5,7 @@ use \Models\Inventory;
 
 class Purchases extends Model
 {	
-	public function getList($offset, $id_company)
+	public function getList($offset, $num_reg_pag, $id_company)
 	{
 		$array = array();
 		$sql = "SELECT
@@ -29,6 +29,25 @@ class Purchases extends Model
 		}
 		
 		return $array;
+	}
+	public function getCount($id_company)
+	{
+		$r = 0;
+
+		$sql = "SELECT
+				COUNT(*) AS c
+				FROM purchases
+				WHERE id_company = :id_company";
+
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(":id_company", $id_company);
+		$stmt->execute();
+
+		$row = $stmt->fetch();
+		$r = $row['c'];
+
+		return $r;
+
 	}
 	public function getInfo($id, $id_company)
 	{

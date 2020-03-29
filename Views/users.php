@@ -8,13 +8,13 @@
 	<tr>
 		<th>E-mail</th>
 		<th>Nome do Grupo</th>
-		<th>Ações</th>
+		<th class="th-center">Ações</th>
 	</tr>
 	<?php foreach ($users_list as $u):?>	
 		<tr>			
 			<td><?php echo $u['email']; ?></td>				
 			<td><?php echo $u['name']; ?></td>				
-			<td width="160">
+			<td width="160" class="td-center">
 				<!-- BOTÃO EDITAR -->
 				<div class="button button_small"><a href="<?php echo BASE_URL; ?>/users/edit/<?php echo $u['id']; ?>">Editar</a></div>
 				<!-- BOTÃO EXCLUIR -->

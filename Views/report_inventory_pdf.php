@@ -18,6 +18,8 @@
 		<th>Qtde Min.</th>		
 		<th>Difereça</th>	
 	</tr>
+	<?php $total_quant = 0; ?>
+	<?php $total_min_quant = 0; ?>
 	<?php foreach($inventory_list as $inv_item): ?>
 		<tr>
 			<td>
@@ -34,7 +36,26 @@
 			</td>
 			<td>
 				<?php echo $inv_item['dif']; ?>
-			</td>			
+			</td>	
 		</tr>
+			<?php echo $total_quant += $inv_item['quant']; ?>		
+			<?php echo $total_min_quant += $inv_item['min_quant']; ?>		
 	<?php endforeach; ?>
+	<tr>
+		<td></td>
+		<td></td>
+		<td>---------</td>
+		<td>---------</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>Totais:</td>
+		<td></td>
+		<td>
+			<?php echo $total_quant; ?>
+		</td>
+		<td>
+			<?php echo $total_min_quant; ?>
+		</td>
+	</tr>
 </table>

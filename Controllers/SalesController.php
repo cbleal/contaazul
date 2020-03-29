@@ -33,8 +33,25 @@ class SalesController extends Controller
 		);
 
 		if ($u->hasPermission('sales_view')) {
+
 			$s = new Sales();			
-			$offset = 0;
+
+			$offset = 0;			
+			$num_reg_pag = 10;
+			$data['pagina_atual'] = 1;
+
+			if (isset($_GET['p']) && !empty($_GET['p'])) {
+				$data['pagina_atual'] = intval($_GET['p']);
+				if ($data['pagina_atual'] == 0) {
+					$data['pagina_atual'] = 1;
+				}
+			}
+
+			$offset = ( $num_reg_pag * ($data['pagina_atual'] - 1) );
+
+			$data['num_registros'] = $s->getCount($u->getCompany());
+			$data['num_paginas']   = ceil($data['num_registros']/$num_reg_pag);
+
 			$data['sales_list'] = $s->getList($offset, $u->getCompany());		
 			$data['add_permission'] = $u->hasPermission('sales_add');
 			

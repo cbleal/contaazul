@@ -33,9 +33,26 @@ class PurchasesController extends Controller
 		);
 
 		if ($u->hasPermission('purchases_view')) {
-			$p = new Purchases();			
+
+			$p = new Purchases();		
+
 			$offset = 0;
-			$data['purchases_list'] = $p->getList($offset, $u->getCompany());		
+			$num_reg_pag = 10;
+			$data['pagina_atual'] = 1;
+
+			if (isset($_GET['p']) && !empty($_GET['p'])) {
+				$data['pagina_atual'] = intval($_GET['p']);
+				if ($data['pagina_atual'] == 0) {
+					$data['pagina_atual'] = 1;
+				}
+			}
+
+			$offset = ( $num_reg_pag * ($data['pagina_atual'] - 1) );
+
+			$data['num_registros'] = $p->getCount($u->getCompany());
+			$data['num_paginas'] = ceil($data['num_registros'] / $num_reg_pag);
+
+			$data['purchases_list'] = $p->getList($offset, $num_reg_pag, $u->getCompany());	
 			$data['add_permission'] = $u->hasPermission('purchases_view');
 			
 			$this->loadTemplate('purchases', $data);

@@ -47,9 +47,9 @@ class Clients extends Model
 
 		return $r;
 	}
-	public function add($id_company, $name, $email = '', $phone = '', $address_zipcode = '', $address = '', $address_number = '', $address2 = '', $address_neighb = '', $address_city = '', $address_state = '', $address_country = '', $stars = '3', $internal_obs = '')
+	public function add($id_company, $name, $email = '', $phone = '', $address_zipcode = '', $address = '', $address_number = '', $address2 = '', $address_neighb = '', $address_city = '', $address_citycode = '', $address_state = '', $address_country = '', $stars = '3', $internal_obs = '')
 	{
-		$sql = "INSERT INTO clients SET id_company = :id_company, name = :name, email = :email, phone = :phone, address_zipcode = :address_zipcode, address = :address, address_number = :address_number, address2 = :address2, address_neighb = :address_neighb, address_city = :address_city, address_state = :address_state, address_country = :address_country, stars = :stars, internal_obs = :internal_obs";
+		$sql = "INSERT INTO clients SET id_company = :id_company, name = :name, email = :email, phone = :phone, address_zipcode = :address_zipcode, address = :address, address_number = :address_number, address2 = :address2, address_neighb = :address_neighb, address_city = :address_city, address_citycode = :address_citycode, address_state = :address_state, address_country = :address_country, stars = :stars, internal_obs = :internal_obs";
 		$stmt = $this->db->prepare($sql);
 		$stmt->bindValue(":id_company", $id_company);
 		$stmt->bindValue(":name", $name);
@@ -61,6 +61,7 @@ class Clients extends Model
 		$stmt->bindValue(":address2", $address2);
 		$stmt->bindValue(":address_neighb", $address_neighb);
 		$stmt->bindValue(":address_city", $address_city);
+		$stmt->bindValue(":address_citycode", $address_citycode);
 		$stmt->bindValue(":address_state", $address_state);
 		$stmt->bindValue(":address_country", $address_country);
 		$stmt->bindValue(":stars", $stars);
@@ -69,9 +70,9 @@ class Clients extends Model
 		// retorna o id
 		return $this->db->lastInsertId();
 	}	
-	public function edit($id, $name, $email, $phone, $address_zipcode, $address, $address_number, $address2, $address_neighb, $address_city, $address_state, $address_country, $stars, $internal_obs, $id_company)
+	public function edit($id, $name, $email, $phone, $address_zipcode, $address, $address_number, $address2, $address_neighb, $address_city, $address_citycode, $address_state, $address_country, $stars, $internal_obs, $id_company)
 	{
-		$sql = "UPDATE clients SET name = :name, email = :email, phone = :phone, address_zipcode = :address_zipcode, address = :address, address_number = :address_number, address2 = :address2, address_neighb = :address_neighb, address_city = :address_city, address_state = :address_state, address_country = :address_country, stars = :stars, internal_obs = :internal_obs, id_company = :id_company WHERE id = :id AND id_company = :id_company2";
+		$sql = "UPDATE clients SET name = :name, email = :email, phone = :phone, address_zipcode = :address_zipcode, address = :address, address_number = :address_number, address2 = :address2, address_neighb = :address_neighb, address_city = :address_city, address_citycode = :address_citycode, address_state = :address_state, address_country = :address_country, stars = :stars, internal_obs = :internal_obs, id_company = :id_company WHERE id = :id AND id_company = :id_company2";
 		$stmt = $this->db->prepare($sql);
 		$stmt->bindValue(":name", $name);
 		$stmt->bindValue(":email", $email);
@@ -82,6 +83,7 @@ class Clients extends Model
 		$stmt->bindValue(":address2", $address2);
 		$stmt->bindValue(":address_neighb", $address_neighb);
 		$stmt->bindValue(":address_city", $address_city);
+		$stmt->bindValue(":address_citycode", $address_citycode);
 		$stmt->bindValue(":address_state", $address_state);
 		$stmt->bindValue(":address_country", $address_country);
 		$stmt->bindValue(":stars", $stars);

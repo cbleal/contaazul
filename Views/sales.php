@@ -10,26 +10,31 @@
 <table border="0" width="100%">
 	<tr>
 		<th>Nome do Cliente</th>
-		<th>Data</th>
-		<th>Valor</th>
-		<th>Status</th>
-		<th>Ações</th>
+		<th class="th-center">Data</th>
+		<th class="th-center">Valor</th>
+		<th class="th-center">Status</th>
+		<th class="th-center">Ações</th>
 	</tr>
 	<?php foreach($sales_list as $sale_item): ?>
 		<tr>
+			<!-- NOME -->
 			<td>
 				<?php echo $sale_item['name']; ?>					
 			</td>
-			<td>
+			<!-- DATA -->
+			<td width="140" class="td-center">
 				<?php echo date('d/m/Y', strtotime($sale_item['date_sale'])); ?>
 			</td>
-			<td>
+			<!-- VALOR -->
+			<td width="140" class="td-center">
 				R$ <?php echo number_format($sale_item['total_price'], 2, ',', '.'); ?>
 			</td>
-			<td width="140">
+			<!-- STATUS -->
+			<td width="140" class="td-center">
 				<?php echo $statuses[$sale_item['status']]; ?>
 			</td>
-			<td width="140" style="text-align:center">
+			<!-- AÇÕES -->
+			<td width="140" class="td-center">
 				<div class="button button_small">
 					<a href="<?php echo BASE_URL; ?>sales/edit/<?php echo $sale_item['id']; ?>">
 						Editar
@@ -44,3 +49,13 @@
 		</tr>
 	<?php endforeach; ?>
 </table>
+
+<div class="pagination">
+	<?php for ($q=1; $q<=$num_paginas; $q++): ?>
+		<div class="pag_item <?php echo ($q = $pagina_atual)?'pag_ativo':'' ?>">
+			<a href="<?php echo BASE_URL; ?>sales?p=<?php echo $q; ?>">
+				<?php echo $q; ?>
+			</a>
+		</div>
+	<?php endfor; ?>
+</div>

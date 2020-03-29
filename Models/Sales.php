@@ -67,6 +67,24 @@ class Sales extends Model
 
 		return $array;
 	}
+	public function getCount($id_company)
+	{
+		$r = 0;
+
+		$sql = "SELECT
+				COUNT(*) AS c
+				FROM sales
+				WHERE id_company = :id_company";				
+
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(":id_company", $id_company);
+		$stmt->execute();
+
+		$row = $stmt->fetch();
+		$r = $row['c'];
+
+		return $r;
+	}
 	public function setLog($id_company, $id_product, $id_user, $action)
 	{
 		$sql = "INSERT INTO inventory_history SET id_company = :id_company, id_product = :id_product, id_user = :id_user, action = :action, date_action = NOW()";
